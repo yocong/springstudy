@@ -1,6 +1,6 @@
-package com.study.springstudy.chap01;
+package com.study.springstudy.chap02;
 
-public class FrenchCourse {
+public class FrenchCourse implements Course{
 
     public void combineMenu() {
         System.out.println("====== 프렌치 코스 구성 ======");

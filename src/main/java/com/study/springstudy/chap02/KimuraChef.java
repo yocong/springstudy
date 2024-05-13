@@ -1,8 +1,8 @@
-package com.study.springstudy.chap01;
+package com.study.springstudy.chap02;
 
-public class KimuraChef {
+public class KimuraChef implements Chef{
 
-    public void cooking() {
+    public void cook() {
         System.out.println("스시의 장인 키무라다.");
     }
 }

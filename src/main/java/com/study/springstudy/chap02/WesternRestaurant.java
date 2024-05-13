@@ -1,12 +1,12 @@
-package com.study.springstudy.chap01;
+package com.study.springstudy.chap02;
 
-public class WesternRestaurant {
+public class WesternRestaurant implements Restaurant {
 
     // 담당 쉐프
-    private JannChef chef = new JannChef();
+    private Chef chef = new JannChef();
 
     // 요리 코스
-    private FrenchCourse course = new FrenchCourse();
+    private Course course = new FrenchCourse();
 
     // 주문 기능
     public void order() {

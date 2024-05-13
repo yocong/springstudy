@@ -1,2 +1,6 @@
-package com.study.springstudy.chap02;public interface Restaurant {
+package com.study.springstudy.chap02;
+
+public interface Restaurant {
+
+    void order();
 }

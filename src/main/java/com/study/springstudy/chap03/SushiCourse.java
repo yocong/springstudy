@@ -1,4 +1,4 @@
-package com.study.springstudy.chap02;
+package com.study.springstudy.chap03;
 
 public class SushiCourse implements Course {
 
