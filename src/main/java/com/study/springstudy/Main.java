@@ -1,11 +1,14 @@
 package com.study.springstudy;
 
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.web.servlet.ServletComponentScan;
 
-import com.study.springstudy.chap03.Chef;
-import com.study.springstudy.chap03.config.HotelManager;
-
+@SpringBootApplication
+@ServletComponentScan(basePackages = "com.study.springstudy")
 public class Main {
     public static void main(String[] args) {
 
+        SpringApplication.run(Main.class, args);
     }
 }
