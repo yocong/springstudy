@@ -1,4 +1,4 @@
-package com.study.springstudy.chap03;
+package com.study.springstudy.core.chap03;
 
 public class AsianRestaurant implements Restaurant {
 

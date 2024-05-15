@@ -1,6 +1,6 @@
-package com.study.springstudy.chap03.config;
+package com.study.springstudy.core.chap03.config;
 
-import com.study.springstudy.chap03.*;
+import com.study.springstudy.core.chap03.*;
 
 // 객체 생성의 제어권을 모두 가지고 온 객체
 public class HotelManager {
