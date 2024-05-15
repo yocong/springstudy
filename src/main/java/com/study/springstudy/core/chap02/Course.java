@@ -1,4 +1,4 @@
-package com.study.springstudy.chap03;
+package com.study.springstudy.core.chap02;
 
 public interface Course {
 

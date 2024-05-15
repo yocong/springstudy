@@ -1,4 +1,4 @@
-package com.study.springstudy.chap02;
+package com.study.springstudy.core.chap02;
 
 public class JannChef implements Chef {
 
