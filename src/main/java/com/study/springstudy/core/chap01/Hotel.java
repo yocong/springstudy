@@ -1,4 +1,4 @@
-package com.study.springstudy.chap01;
+package com.study.springstudy.core.chap01;
 
 /*
  * @problem - 호텔 클래스에서 직접 객체를 생성하면

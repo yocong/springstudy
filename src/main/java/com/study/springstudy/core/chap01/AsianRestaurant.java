@@ -1,4 +1,4 @@
-package com.study.springstudy.chap01;
+package com.study.springstudy.core.chap01;
 
 public class AsianRestaurant {
 
