@@ -12,6 +12,7 @@ public class ModelAndView {
 
     public ModelAndView(String viewName) {
         this.view = new View(viewName);
+        this.model = new Model();
     }
 
     // View의 기능
