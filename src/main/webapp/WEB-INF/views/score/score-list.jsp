@@ -102,9 +102,9 @@ uri="http://java.sun.com/jsp/jstl/core" %>
           <li class="list-header">
             <div class="count">총 학생 수: ${sList.size()}명</div>
             <div class="sort-link-group">
-              <div><a href="#">학번순</a></div>
-              <div><a href="#">이름순</a></div>
-              <div><a href="#">평균순</a></div>
+              <div><a href="/score/list?sort=num">학번순</a></div>
+              <div><a href="/score/list?sort=name">이름순</a></div>
+              <div><a href="/score/list?sort=avg">평균순</a></div>
             </div>
           </li>
 

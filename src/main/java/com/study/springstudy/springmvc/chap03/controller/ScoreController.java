@@ -2,14 +2,18 @@ package com.study.springstudy.springmvc.chap03.controller;
 
 import com.study.springstudy.springmvc.chap03.dto.ScorePostDto;
 import com.study.springstudy.springmvc.chap03.entity.Score;
-import com.study.springstudy.springmvc.chap03.repository.ScoreJdbcRepository;
+import com.study.springstudy.springmvc.chap03.repository.ScoreRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /*
     # 요청 URL
@@ -20,7 +24,7 @@ import java.util.List;
     - /score/register : POST
 
     3. 성적정보 삭제 요청
-    - /score/remove : POST
+    - /score/remove : GET
 
     4. 성적정보 상세 조회 요청
     - /score/detail : GET
@@ -31,12 +35,21 @@ import java.util.List;
 public class ScoreController {
 
     // 의존객체 설정
-    private ScoreJdbcRepository repository = new ScoreJdbcRepository();
+    // DIP를 지키기 위해서 추상화된 인터페이스 만들어서 구체화
+    private final ScoreRepository repository;
 
+    // 생성자를 통해 자동으로 객체를 주입해줘 (의존성 주입)
+    @Autowired
+    public ScoreController(ScoreRepository repository) {
+        this.repository = repository;
+    }
+
+    // @RequestParam(defaultValue = "num") : 기본 정렬을 num으로
     @GetMapping("/list")
-    public String list(Model model) {
+    public String list(@RequestParam(defaultValue = "num") String sort, Model model) {
 
-        List<Score> scoreList = repository.findAll();
+        List<Score> scoreList = repository.findAll(sort);
+
         model.addAttribute("sList", scoreList);
 
         return "score/score-list";
