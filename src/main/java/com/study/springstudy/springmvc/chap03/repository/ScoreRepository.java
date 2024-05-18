@@ -17,6 +17,9 @@ public interface ScoreRepository {
     // 저장소에서 데이터 개별조회하기
     Score findOne(long stuNum);
 
+//    int[] findRankByStuNum(long stuNum);
+
+
     // 저장소에서 데이터 삭제하기
     // -> 원래는 이 인터페이스를 구현하는 구현체에서 모두 오버라이딩 해야되는데
     //    default로 인해 필요한 곳에서만 오버라이딩해서 사용가능

@@ -13,7 +13,7 @@ import java.util.List;
 @Repository
 public class ScoreJdbcRepository implements ScoreRepository {
 
-    // DB 연결
+    // DB 설정
     private String url = "jdbc:mariadb://localhost:3307/spring5";
     private String username = "root";
     private String password = "mariadb";
@@ -118,6 +118,11 @@ public class ScoreJdbcRepository implements ScoreRepository {
         }
         return null;
     }
+
+//    @Override
+//    public int[] findRankByStuNum(long stuNum) {
+//        return new int[0];
+//    }
 
     @Override
     public boolean delete(long stuNum) {
