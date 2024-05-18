@@ -8,11 +8,11 @@ import java.io.IOException;
 public class ModelAndView {
 
     private View view;   // 화면 처리
-    private Model model; // 화면에 필요한 데이터 처리
+    private MyModel model; // 화면에 필요한 데이터 처리
 
     public ModelAndView(String viewName) {
         this.view = new View(viewName);
-        this.model = new Model();
+        this.model = new MyModel();
     }
 
     // View의 기능
@@ -34,11 +34,11 @@ public class ModelAndView {
         this.view = view;
     }
 
-    public Model getModel() {
+    public MyModel getModel() {
         return model;
     }
 
-    public void setModel(Model model) {
+    public void setModel(MyModel model) {
         this.model = model;
     }
 }
