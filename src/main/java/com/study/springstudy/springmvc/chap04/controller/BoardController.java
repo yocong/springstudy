@@ -76,7 +76,7 @@ public class BoardController {
     public String delete(int boardNo) {
 
         repository.delete(boardNo);
-        
+
         return "redirect:/board/list";
     }
 
@@ -88,10 +88,13 @@ public class BoardController {
 
         // 2. 데이터베이스로부터 해당 글번호 데이터 조회하기
         Board b = repository.findOne(bno);
+        // 조회수 상승
+        if(b != null) repository.upViewCount(b, bno);
 
         // 3. JSP파일에 조회한 데이터 보내기
         model.addAttribute("bbb", new BoardDetailResponseDto(b));
-        repository.updateViewCount(b, bno);
+
+
 
         return "board/detail";
     }

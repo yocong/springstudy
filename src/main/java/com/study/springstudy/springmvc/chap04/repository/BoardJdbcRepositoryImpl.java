@@ -41,9 +41,9 @@ public class BoardJdbcRepositoryImpl implements BoardRepository {
     }
 
     @Override
-    public void updateViewCount(Board board, int bno) {
-        String sql = "UPDATE tbl_board SET view_count = ? WHERE board_no = ?";
-        template.update(sql, board.getViewCount() + 1, bno);
+    public void upViewCount(Board board, int bno) {
+        String sql = "UPDATE tbl_board SET view_count = view_count + 1 WHERE board_no = ?";
+        template.update(sql, bno);
     }
 
 

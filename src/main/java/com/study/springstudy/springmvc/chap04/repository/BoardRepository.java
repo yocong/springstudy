@@ -20,6 +20,6 @@ public interface BoardRepository {
     boolean delete(int boardNo);
 
     // 게시물 조회수 추가
-    void updateViewCount(Board board, int num);
+    void upViewCount(Board board, int boardNo);
 
 }
