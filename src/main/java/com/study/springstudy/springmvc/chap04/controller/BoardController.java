@@ -1,6 +1,7 @@
 package com.study.springstudy.springmvc.chap04.controller;
 
-import com.study.springstudy.springmvc.chap04.dto.BoardDto;
+import com.study.springstudy.springmvc.chap04.dto.BoarWriteRequestdDto;
+import com.study.springstudy.springmvc.chap04.dto.BoardListResponseDto;
 import com.study.springstudy.springmvc.chap04.entity.Board;
 import com.study.springstudy.springmvc.chap04.repository.BoardRepository;
 import lombok.RequiredArgsConstructor;
@@ -10,7 +11,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/board")
@@ -24,9 +27,23 @@ public class BoardController {
     @GetMapping("/list")
     public String list(Model model) {
 
+        // 1. 데이터베이스로부터 게시글 목록 조회
         List<Board> BoardList = repository.findAll();
 
-        model.addAttribute("BList", BoardList);
+        // 2. 클라이언트에 데이터를 보내기전에 렌더링에 필요한
+        //    데이터만 추출하기 (정제된 리스트 보내기)
+        List<BoardListResponseDto> bList = BoardList.stream()
+                .map(b -> new BoardListResponseDto(b))
+                .collect(Collectors.toList());
+
+//        List<BoardListResponseDto> bList = new ArrayList<>();
+//
+//        for (Board b : BoardList) {
+//            BoardListResponseDto dto = new BoardListResponseDto(b);
+//            bList.add(dto);
+//        }
+
+        model.addAttribute("BList", bList);
         return "board/list";
     }
 
@@ -40,7 +57,7 @@ public class BoardController {
     // 3. 게시글 등록 요청 (/board/write : POST)
     // -> 목록 조회 요청 리다이렉션
     @PostMapping("/write")
-    public String register(BoardDto dto) {
+    public String register(BoarWriteRequestdDto dto) {
 
         // 1. 브라우저가 전달한 게시글 내용 읽기
 //        System.out.println("dto = " + dto);
