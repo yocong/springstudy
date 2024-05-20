@@ -4,7 +4,7 @@ import com.study.springstudy.springmvc.chap03.entity.Score;
 
 import java.util.List;
 
-public class ScoreMemoryRepository implements ScoreRepository{
+public class ScoreMemoryRepository implements ScoreRepository {
     @Override
     public boolean save(Score score) {
         return false;
@@ -20,13 +20,8 @@ public class ScoreMemoryRepository implements ScoreRepository{
         return null;
     }
 
-//    @Override
-//    public int[] findRankByStuNum(long stuNum) {
-//        return new int[0];
-//    }
-
     @Override
-    public boolean delete(long stuNum) {
-        return false;
+    public int[] findRankByStuNum(long stuNum) {
+        return new int[0];
     }
 }

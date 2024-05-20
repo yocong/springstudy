@@ -52,19 +52,19 @@ public class ScoreSpringJdbcRepository implements ScoreRepository {
         return template.queryForObject(sql, (rs, n) -> new Score(rs), stuNum);
     }
 
-//    @Override
-//    public int[] findRankByStuNum(long stuNum) {
-//        String sql = "SELECT A.stu_num, A.rank, A.cnt" +
-//                " FROM (SELECT *, " +
-//                "           RANK() OVER (ORDER BY average DESC) AS rank, " +
-//                "           COUNT(*) OVER() AS cnt" +
-//                "       FROM tbl_score) A " +
-//                "WHERE A.stu_num = ?";
-//        return template.queryForObject(sql, (rs, n) -> new int[] {
-//                rs.getInt("rank"),
-//                rs.getInt("cnt")
-//        }, stuNum);
-//    }
+    @Override
+    public int[] findRankByStuNum(long stuNum) {
+        String sql = "SELECT A.stu_num, A.rank, A.cnt" +
+                " FROM (SELECT *, " +
+                "           RANK() OVER (ORDER BY average DESC) AS rank, " +
+                "           COUNT(*) OVER() AS cnt" +
+                "       FROM tbl_score) A " +
+                "WHERE A.stu_num = ?";
+        return template.queryForObject(sql, (rs, n) -> new int[] {
+                rs.getInt("rank"),
+                rs.getInt("cnt")
+        }, stuNum);
+    }
 
     @Override
     public boolean delete(long stuNum) {

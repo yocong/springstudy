@@ -1,6 +1,7 @@
 package com.study.springstudy.springmvc.chap03.repository;
 
 import com.study.springstudy.springmvc.chap03.entity.Score;
+import org.checkerframework.checker.units.qual.A;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
@@ -8,13 +9,10 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-// @Repository = @Component와 의미 + 저장소의 개념 추가
-// ScoreJdbcRepository의 객체생성 제어권을 스프링에게 넘김
-@Repository
+//@Repository
 public class ScoreJdbcRepository implements ScoreRepository {
 
-    // DB 설정
-    private String url = "jdbc:mariadb://localhost:3307/spring5";
+    private String url = "jdbc:mariadb://localhost:3306/spring5";
     private String username = "root";
     private String password = "mariadb";
 
@@ -27,7 +25,6 @@ public class ScoreJdbcRepository implements ScoreRepository {
     }
 
 
-    // 저장소에 데이터 추가하는 기능
     @Override
     public boolean save(Score score) {
 
@@ -46,7 +43,7 @@ public class ScoreJdbcRepository implements ScoreRepository {
             pstmt.setDouble(6, score.getAverage());
             pstmt.setString(7, score.getGrade().toString());
 
-            int result = pstmt.executeUpdate(); // SQL 쿼리 실행
+            int result = pstmt.executeUpdate();
 
             if (result == 1) return true;
 
@@ -56,31 +53,33 @@ public class ScoreJdbcRepository implements ScoreRepository {
         return false;
     }
 
-    // 저장소에서 데이터 전체조회하는 기능
     @Override
     public List<Score> findAll(String sort) {
 
         List<Score> scoreList = new ArrayList<>();
+
         try (Connection conn = connect()) {
 
-            // sortCondition(sort) : 조건에 맞는 ORDER BY 추가
             String sql = "SELECT * FROM tbl_score " + sortCondition(sort);
 
             PreparedStatement pstmt = conn.prepareStatement(sql);
-            ResultSet rs = pstmt.executeQuery(); // 정보 조회 실행
 
-            while(rs.next()) { // 정보가 조회될 때 마다 scoreList에 추가
-                Score score = new Score(rs); // 정보의 내용 Score에서 처리
-                scoreList.add(score);
+            ResultSet rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                Score s = new Score(rs);
+                scoreList.add(s);
             }
 
         } catch (Exception e) {
             e.printStackTrace();
         }
+
         return scoreList;
     }
 
     private String sortCondition(String sort) {
+
         String sortSql = "ORDER BY ";
         switch (sort) {
             case "num":
@@ -96,55 +95,79 @@ public class ScoreJdbcRepository implements ScoreRepository {
         return sortSql;
     }
 
-    // 저장소에서 데이터 개별조회하는 기능 (학번으로 구분)
     @Override
     public Score findOne(long stuNum) {
 
         try (Connection conn = connect()) {
-            String sql = "SELECT * FROM tbl_score WHERE stu_num =?";
+
+            String sql = "SELECT * FROM tbl_score WHERE stu_num = ?";
 
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setLong(1, stuNum);
-            ResultSet rs = pstmt.executeQuery(); // 조회
 
-            while(rs.next()) {
-                Score score = new Score(rs); // Score에서 처리
-                return score;
+            ResultSet rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                return new Score(rs);
             }
-
 
         } catch (Exception e) {
             e.printStackTrace();
         }
+
         return null;
     }
-
-//    @Override
-//    public int[] findRankByStuNum(long stuNum) {
-//        return new int[0];
-//    }
 
     @Override
     public boolean delete(long stuNum) {
 
+        try (Connection conn = connect()) {
 
-        try(Connection conn = connect()){
-            String sql = "DELETE FROM tbl_score WHERE stu_num =?";
+            String sql = "DELETE FROM tbl_score WHERE stu_num = ?";
 
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setLong(1, stuNum);
 
             int result = pstmt.executeUpdate();
 
-            if(result == 1) return true;
+            if (result == 1) return true;
 
         } catch (Exception e) {
             e.printStackTrace();
         }
+
         return false;
     }
 
-    // db연결 메서드
+    @Override
+    public int[] findRankByStuNum(long stuNum) {
+
+        try (Connection conn = connect()) {
+
+            String sql = "SELECT A.stu_num, A.rank, A.cnt" +
+                    " FROM (SELECT *, " +
+                    "           RANK() OVER (ORDER BY average DESC) AS rank, " +
+                    "           COUNT(*) OVER() AS cnt" +
+                    "       FROM tbl_score) A " +
+                    "WHERE A.stu_num = ?";
+
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setLong(1, stuNum);
+
+            ResultSet rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                return new int[] {
+                        rs.getInt("rank"),
+                        rs.getInt("cnt")
+                };
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     private Connection connect() throws SQLException {
         return DriverManager.getConnection(url, username, password);
     }
