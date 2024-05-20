@@ -87,7 +87,8 @@ public class ScoreController {
 
 
     // 수정 화면 열기 요청
-    // detail에 있던 데이터를 들고옴 (조회)
+    // 수정화면을 열 때 detail에 있던 데이터를 들고와야함 (조회)
+    // -> 수정되는 사람의 정보를 가져와야해서
     @GetMapping("/modify")
     public String modify(long stuNum, Model model) {
 
