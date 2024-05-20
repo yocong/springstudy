@@ -111,7 +111,7 @@ uri="http://java.sun.com/jsp/jstl/core" %>
           <c:forEach var="s" items="${sList}">
             <li>
               # 학번: ${s.stuNum}, 이름:
-              <a href="/score/detail?stuNum=${s.stuNum}">${s.stuName}</a>, 평균:
+              <a href="/score/detail?stuNum=${s.stuNum}">${s.maskingName}</a>, 평균:
               ${s.average}점, 학점: ${s.grade}
               <a class="del-btn" href="/score/remove?stuNum=${s.stuNum}"
                 >삭제</a
