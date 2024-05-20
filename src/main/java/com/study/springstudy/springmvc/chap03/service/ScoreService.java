@@ -12,11 +12,11 @@ package com.study.springstudy.springmvc.chap03.service;
 
 import com.study.springstudy.springmvc.chap03.dto.ScoreDetailResponseDto;
 import com.study.springstudy.springmvc.chap03.dto.ScoreListResponseDto;
+import com.study.springstudy.springmvc.chap03.dto.ScoreModifyRequestDto;
 import com.study.springstudy.springmvc.chap03.dto.ScorePostDto;
 import com.study.springstudy.springmvc.chap03.entity.Score;
 import com.study.springstudy.springmvc.chap03.repository.ScoreRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -60,4 +60,9 @@ public class ScoreService {
         return dto;
     }
 
+    // 수정 완료를 위해 Service 클래스에서 dto를 entity로 변환
+    public void update(ScoreModifyRequestDto dto) {
+
+        repository.updateScore(new Score(dto));
+    }
 }

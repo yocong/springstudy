@@ -71,4 +71,15 @@ public class ScoreSpringJdbcRepository implements ScoreRepository {
         String sql = "DELETE FROM tbl_score WHERE stu_num = ?";
         return template.update(sql, stuNum) == 1;
     }
+
+    // 국영수 점수가 바뀌면? 평균 총점 등급도 바뀌게 되는 것에 주의
+    @Override
+    public boolean updateScore(Score s) {
+        String sql = "UPDATE tbl_score " +
+                "SET kor = ?, eng = ?, math = ?, " +
+                "total = ?, average = ?, grade = ? " +
+                "WHERE stu_num = ?";
+        return template.update(sql, s.getKor(), s.getEng(), s.getMath(),
+                s.getTotal(), s.getAverage(), s.getGrade().toString(), s.getStuNum()) == 1;
+    }
 }

@@ -11,6 +11,7 @@ public class ScoreListResponseDto {
     private double average;
     private String grade;
 
+    // Entity를 DTO로 변환
     public ScoreListResponseDto(Score s) {
         this.stuNum = s.getStuNum();
         this.maskingName = makeMaskingName(s.getStuName());
