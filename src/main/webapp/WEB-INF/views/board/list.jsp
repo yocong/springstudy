@@ -76,7 +76,7 @@
       <button class="cancel" id="cancelDelete"><i class="fas fa-times"></i> 아니오</button>
     </div>
   </div>
-</div>
+</div> 
 
 
 

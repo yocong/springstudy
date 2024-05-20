@@ -52,7 +52,7 @@
             margin-bottom: 5px;
             font-size: 20px;
         }
-        #title{
+        #title, #writer{
             font-size: 18px;
             width: 100%;
             padding: 8px;
@@ -108,12 +108,14 @@
 </head>
 <body>
 <div id="wrap" class="form-container">
-    <h1>${b.boardNo}번 게시물 내용~ </h1>
-    <h2># 작성일자: ${b.regDateTime}</h2>
+    <h1>${bbb.boardNo}번 게시물 내용~ </h1>
+    <h2># 작성일자: ${bbb.regDateTime}</h2>
+    <label for="writer">작성자</label>
+    <input type="text" id="writer" name="writer" value="${bbb.writer}" readonly>
     <label for="title">제목</label>
-    <input type="text" id="title" name="title" value="${b.title}" readonly>
+    <input type="text" id="title" name="title" value="${bbb.title}" readonly>
     <label for="content">내용</label>
-    <div id="content">${b.content}</div>
+    <div id="content">${bbb.content}</div>
     <div class="buttons">
         <button class="list-btn" type="button" onclick="window.location.href='/board/list'">목록</button>
     </div>

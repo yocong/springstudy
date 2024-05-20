@@ -17,20 +17,20 @@ public class BoardListResponseDto {
         }
      */
 
+    private int boardNo; // 원본 게시물 번호
     private String shortTitle; // 5글자 이상 줄임 처리된 제목
     private String shortContent; // 30자 이상 줄임 처리된 글 내용
     private String date; // 포맷팅된 날짜문자열
     private int view; // 조회 수
-    private int boardNo;
 
 
     // 엔터티를 DTO로 변환하는 생성자
     public BoardListResponseDto(Board b) {
+        this.boardNo = b.getBoardNo();
         this.shortTitle = makeShortTitle(b.getTitle());
         this.shortContent = makeShortContent(b.getContent());
         this.date = dateFormatting(b.getRegDateTime());
         this.view = b.getViewCount();
-        this.boardNo = b.getBoardNo();
     }
 
     private String dateFormatting(LocalDateTime regDateTime) {
