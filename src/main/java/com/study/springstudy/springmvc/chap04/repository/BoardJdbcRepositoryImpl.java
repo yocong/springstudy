@@ -9,7 +9,7 @@ import java.util.List;
 
 @Repository
 @RequiredArgsConstructor
-public class BoardJdbcRepository implements BoardRepository {
+public class BoardJdbcRepositoryImpl implements BoardRepository {
 
     private final JdbcTemplate template;
 
@@ -28,11 +28,10 @@ public class BoardJdbcRepository implements BoardRepository {
     @Override
     public boolean save(Board board) {
         String sql = "INSERT INTO tbl_board " +
-                "(board_no, title, content, writer, view_count, reg_date_time) " +
-                "VALUES (?, ?, ?, ?, ?, ?)";
+                "(title, content, writer) " +
+                "VALUES (?, ?, ?)";
         return template.update(sql,
-                board.getBoardNo(), board.getTitle(), board.getContent()
-        , board.getWriter(), board.getViewCount(), board.getRegDateTime()) == 1;
+                board.getTitle(), board.getContent(), board.getWriter()) == 1;
     }
 
     @Override

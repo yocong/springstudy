@@ -41,7 +41,12 @@ public class BoardController {
     // -> 목록 조회 요청 리다이렉션
     @PostMapping("/write")
     public String register(BoardDto dto) {
+
+        // 1. 브라우저가 전달한 게시글 내용 읽기
+//        System.out.println("dto = " + dto);
+        // 2. 해당 게시글을 데이터베이스에 저장하기 위해 엔터티 클래스로 변환
         Board b = new Board(dto);
+        // 3. 데이터 베이스 저장 명령
         repository.save(b);
 
         return "redirect:/board/list";

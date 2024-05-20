@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 
+// DB와 1대1 매칭되는 객체
 @Setter @Getter @ToString
 @EqualsAndHashCode
 @NoArgsConstructor
