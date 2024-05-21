@@ -2,11 +2,13 @@ package com.study.springstudy.springmvc.chap03.entity;
 
 import com.study.springstudy.springmvc.chap03.dto.ScoreModifyRequestDto;
 import com.study.springstudy.springmvc.chap03.dto.ScorePostDto;
+import lombok.AllArgsConstructor;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 // 역할: 데이터베이스의 테이블의 컬럼과 1대1로 매칭되는 필드를 가진 객체
+@AllArgsConstructor
 public class Score {
 
     private long stuNum;
@@ -45,6 +47,8 @@ public class Score {
         this.math = dto.getMath();
         calculate();
     }
+
+
 
     private void calculate() {
         this.total = kor + eng + math;

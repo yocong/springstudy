@@ -66,7 +66,7 @@ public class ScoreController {
     }
 
     @GetMapping("/remove")
-    public String remove(@RequestParam("sn") long stuNum) {
+    public String remove(long stuNum) {
 
         service.deleteScore(stuNum);
         return "redirect:/score/list";
