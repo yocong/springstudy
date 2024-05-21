@@ -33,6 +33,10 @@ dependencies {
 
     // Spring JDBC 모듈
     implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+
+    // Mybatis 모듈
+    implementation group: 'org.mybatis.spring.boot', name: 'mybatis-spring-boot-starter', version: '2.2.2'
+
 }
 
 tasks.named('test') {
