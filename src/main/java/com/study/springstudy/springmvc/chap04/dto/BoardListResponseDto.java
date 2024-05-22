@@ -17,20 +17,27 @@ public class BoardListResponseDto {
         }
      */
 
-    private int boardNo; // 원본 게시물 번호
+    private int bno; // 원본 게시물 번호
     private String shortTitle; // 5글자 이상 줄임 처리된 제목
     private String shortContent; // 30자 이상 줄임 처리된 글 내용
     private String date; // 포맷팅된 날짜문자열
     private int view; // 조회 수
+    private boolean hit; // HIT 게시물인가?
+    private boolean newArticle; // 새 게시물(1시간 이내)인가?
 
 
     // 엔터티를 DTO로 변환하는 생성자
     public BoardListResponseDto(Board b) {
-        this.boardNo = b.getBoardNo();
+        this.bno = b.getBoardNo();
         this.shortTitle = makeShortTitle(b.getTitle());
         this.shortContent = makeShortContent(b.getContent());
-        this.date = dateFormatting(b.getRegDateTime());
+
+        // 게시물 등록시간
+        LocalDateTime regTime = b.getRegDateTime();
+        this.date = dateFormatting(regTime);
         this.view = b.getViewCount();
+        this.hit = this.view > 5;
+        this.newArticle = LocalDateTime.now().isBefore(regTime.plusMinutes(5));
     }
 
     private String dateFormatting(LocalDateTime regDateTime) {

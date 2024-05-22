@@ -20,6 +20,18 @@
   <link rel="stylesheet" href="/assets/css/main.css">
   <link rel="stylesheet" href="/assets/css/list.css">
 
+    <style>
+        .hit {
+          width: 10px;
+          padding: 2px 3px;
+          background: yellowgreen;
+          border-radius: 4px;
+        }
+
+        .card-container .card .card-title-wrapper .time-view-wrapper>div.hit {
+          background: yellow;
+        }
+    </style>
 </head>
 
 <body>
@@ -34,13 +46,23 @@
   <div class="card-container">
     <c:forEach var="b" items="${BList}">
       <div class="card-wrapper">
-        <section class="card" data-bno=${b.boardNo}>
+        <section class="card" data-bno=${b.bno}>
           <div class="card-title-wrapper">
             <h2 class="card-title">${b.shortTitle}</h2>
             <div class="time-view-wrapper">
               <div class="time">
                 <i class="far fa-clock"></i>
                   ${b.date}</div>
+
+              <c:if test="${b.hit}">
+                <div class="hit">HIT</div>
+              </c:if>
+
+              <c:if test="${b.newArticle}">
+                <div class="hit">NEW</div>
+              </c:if>
+
+
               <div class="view">
                 <i class="fas fa-eye"></i>
                 <span class="view-count">${b.view}</span>
@@ -54,7 +76,7 @@
           </div>
         </section>
         <div class="card-btn-group">
-          <button class="del-btn" data-href="/board/delete?boardNo=${b.boardNo}">
+          <button class="del-btn" data-href="/board/delete?boardNo=${b.bno}">
             <i class="fas fa-times"></i>
           </button>
         </div>

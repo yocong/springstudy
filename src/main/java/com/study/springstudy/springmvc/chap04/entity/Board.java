@@ -39,4 +39,5 @@ public class Board {
         this.boardNo = getBoardNo();
         this.viewCount = getViewCount();
     }
+
 }
