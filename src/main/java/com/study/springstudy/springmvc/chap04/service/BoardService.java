@@ -1,5 +1,7 @@
 package com.study.springstudy.springmvc.chap04.service;
 
+import com.study.springstudy.springmvc.chap04.common.Page;
+import com.study.springstudy.springmvc.chap04.common.Search;
 import com.study.springstudy.springmvc.chap04.dto.BoarWriteRequestdDto;
 import com.study.springstudy.springmvc.chap04.dto.BoardDetailResponseDto;
 import com.study.springstudy.springmvc.chap04.dto.BoardListResponseDto;
@@ -18,9 +20,9 @@ public class BoardService {
     private final BoardMapper mapper;
 
     // 목록 조회 중간처리
-    public List<BoardListResponseDto> getList() {
+    public List<BoardListResponseDto> getList(Search page) {
 
-        List<Board> BoardList = mapper.findAll();
+        List<Board> BoardList = mapper.findAll(page);
 
         // 조회해온 게시물 리스트에서 각 게시물들의 조회수를 확인하여
         // 조회수가 5이상인 게시물에 특정 마킹
@@ -51,5 +53,10 @@ public class BoardService {
         BoardDetailResponseDto dto = new BoardDetailResponseDto(b);
 
         return dto;
+    }
+
+    // 총 게시물수 중간 처리
+    public int getCount() {
+        return mapper.count();
     }
 }

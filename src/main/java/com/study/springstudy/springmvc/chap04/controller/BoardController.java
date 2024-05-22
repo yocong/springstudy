@@ -1,11 +1,11 @@
 package com.study.springstudy.springmvc.chap04.controller;
 
-import com.study.springstudy.springmvc.chap03.dto.ScoreListResponseDto;
+import com.study.springstudy.springmvc.chap04.common.Page;
+import com.study.springstudy.springmvc.chap04.common.PageMaker;
+import com.study.springstudy.springmvc.chap04.common.Search;
 import com.study.springstudy.springmvc.chap04.dto.BoarWriteRequestdDto;
 import com.study.springstudy.springmvc.chap04.dto.BoardDetailResponseDto;
 import com.study.springstudy.springmvc.chap04.dto.BoardListResponseDto;
-import com.study.springstudy.springmvc.chap04.entity.Board;
-import com.study.springstudy.springmvc.chap04.repository.BoardRepository;
 import com.study.springstudy.springmvc.chap04.service.BoardService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -14,9 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/board")
@@ -28,12 +26,17 @@ public class BoardController {
 
     // 1. 목록 조회 요청 (/board/list : GET)
     @GetMapping("/list")
-    public String list(Model model) {
+    // 타입을 Search로 받게되면 Page와 Search에 있는 것들을 모두 받을 수 있음
+    // -> findAll의 keyword까지 O
+    public String list(Search page, Model model) {
 
         // 서비스에게 조회요청 위임
-        List<BoardListResponseDto> dtos = service.getList();
+        List<BoardListResponseDto> dtos = service.getList(page);
+        // 페이지 정보를 생성하여 JSP에게 전송
+        PageMaker maker = new PageMaker(page, service.getCount());
 
         model.addAttribute("BList", dtos);
+        model.addAttribute("maker", maker);
         return "board/list";
     }
 
