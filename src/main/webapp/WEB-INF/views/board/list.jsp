@@ -79,6 +79,12 @@ uri="http://java.sun.com/jsp/jstl/core" %>
         </div>
       </div>
 
+      <div class="amount">
+        <div><a href="#">6</a></div>
+        <div><a href="#">18</a></div>
+        <div><a href="#">30</a></div>
+      </div>
+
 
       <div class="card-container">
         <c:forEach var="b" items="${BList}">
@@ -131,7 +137,7 @@ uri="http://java.sun.com/jsp/jstl/core" %>
             <!-- 첫번 째 페이지로 -->
             <c:if test="${maker.pageInfo.pageNo != 1}">
               <li class="page-item">
-                <a class="page-link" href="/board/list?pageNo=1"><<</a>
+                <a class="page-link" href="/board/list?pageNo=1">&lt;&lt;</a>
               </li>
             </c:if>
 
@@ -162,7 +168,7 @@ uri="http://java.sun.com/jsp/jstl/core" %>
             <!-- 마지막 페이지로 -->
             <c:if test="${maker.pageInfo.pageNo != maker.finalPage}">
               <li class="page-item">
-                <a class="page-link" href="/board/list?pageNo=${maker.finalPage}">>></a>
+                <a class="page-link" href="/board/list?pageNo=${maker.finalPage}">&gt;&gt;</a>
               </li>
             </c:if>
 
@@ -191,7 +197,6 @@ uri="http://java.sun.com/jsp/jstl/core" %>
 
     <script>
       const $cardContainer = document.querySelector(".card-container");
-      const $bottomSection = document.querySelector(".bottom-section");
       //================= 삭제버튼 스크립트 =================//
       const modal = document.getElementById("modal"); // 모달창 얻기
       const confirmDelete = document.getElementById("confirmDelete"); // 모달 삭제 확인버튼
