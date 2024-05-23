@@ -1,6 +1,5 @@
 package com.study.springstudy.springmvc.chap04.controller;
 
-import com.study.springstudy.springmvc.chap04.common.Page;
 import com.study.springstudy.springmvc.chap04.common.PageMaker;
 import com.study.springstudy.springmvc.chap04.common.Search;
 import com.study.springstudy.springmvc.chap04.dto.BoarWriteRequestdDto;
@@ -11,9 +10,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @Controller
@@ -28,7 +29,7 @@ public class BoardController {
     @GetMapping("/list")
     // 타입을 Search로 받게되면 Page와 Search에 있는 것들을 모두 받을 수 있음
     // -> findAll의 keyword까지 O
-    public String list(Search page, Model model) {
+    public String list(@ModelAttribute("s") Search page, Model model) {
 
         // 서비스에게 조회요청 위임
         List<BoardListResponseDto> dtos = service.getList(page);
@@ -69,13 +70,17 @@ public class BoardController {
 
     // 5. 게시글 상세 조회 요청 (/board/detail : GET)
     @GetMapping("/detail")
-    public String detail(int bno, Model model) {
+    public String detail(int bno, Model model, HttpServletRequest request) {
 
-        BoardDetailResponseDto b = service.retrieve(bno);
+        // 2. 데이터베이스로부터 해당 글번호 데이터 조회하기
+        BoardDetailResponseDto b = service.detail(bno);
 
         // 3. JSP파일에 조회한 데이터 보내기
         model.addAttribute("bbb", b);
 
+        // 4. 요청 헤더를 파싱하여 이전 페이지의 주소를 얻어냄
+        String ref = request.getHeader("Referer");
+        model.addAttribute("ref", ref);
 
 
         return "board/detail";
