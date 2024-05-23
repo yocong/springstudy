@@ -4,23 +4,26 @@
         "https://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
 
-    <!-- 카멜케이스와 스네이크케이스 자동 변환 설정 -->
+    <!--  카멜케이스와 스네이크케이스 자동 변환 설정  -->
     <settings>
         <setting name="mapUnderscoreToCamelCase" value="true"/>
     </settings>
 
-    <!-- SELECT 조회 결과를 담을 Entity 클래스 별칭 설정하기 -->
+    <!--  SELECT 조회 결과를 담을 Entity 클래스 별칭 설정하기  -->
     <typeAliases>
         <typeAlias type="com.study.springstudy.database.chap01.Person" alias="person" />
         <typeAlias type="com.study.springstudy.springmvc.chap03.entity.Score" alias="score" />
         <typeAlias type="com.study.springstudy.springmvc.chap04.entity.Board" alias="board" />
+        <typeAlias type="com.study.springstudy.springmvc.chap05.entity.Reply" alias="reply" />
     </typeAliases>
 
-    <!-- SQL을 적어놓은 ...Mapper.xml 파일들을 사용등록하는 영역 -->
+
+    <!--  SQL을 적어놓은 ...Mapper.xml 파일들을 사용등록하는 영역  -->
     <mappers>
         <mapper resource="mappers/PersonMapper.xml" />
         <mapper resource="mappers/ScoreMapper.xml" />
         <mapper resource="mappers/BoardMapper.xml" />
+        <mapper resource="mappers/ReplyMapper.xml" />
     </mappers>
 
 </configuration>
