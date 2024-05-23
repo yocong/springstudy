@@ -33,7 +33,7 @@ public class BoardController {
         // 서비스에게 조회요청 위임
         List<BoardListResponseDto> dtos = service.getList(page);
         // 페이지 정보를 생성하여 JSP에게 전송
-        PageMaker maker = new PageMaker(page, service.getCount());
+        PageMaker maker = new PageMaker(page, service.getCount(page));
 
         model.addAttribute("BList", dtos);
         model.addAttribute("maker", maker);
