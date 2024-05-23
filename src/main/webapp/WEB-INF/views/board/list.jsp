@@ -56,42 +56,55 @@ uri="http://java.sun.com/jsp/jstl/core" %>
         <button class="add-btn">새 글 쓰기</button>
       </div>
 
-      
       <div class="top-section">
         <!-- 검색창 영역 -->
         <div class="search">
           <form action="/board/list" method="get">
-
             <select class="form-select" name="type" id="search-type">
-              <option value="title" selected>제목</option>
+              <option value="title">제목</option>
               <option value="content">내용</option>
               <option value="writer">작성자</option>
               <option value="tc">제목+내용</option>
             </select>
 
-            <input type="text" class="form-control" name="keyword">
+            <input
+              type="text"
+              class="form-control"
+              name="keyword"
+              value="${s.keyword}"
+            />
 
             <button class="btn btn-primary" type="submit">
               <i class="fas fa-search"></i>
             </button>
-
           </form>
         </div>
+
+        <div class="amount">
+          <div><a href="#">6</a></div>
+          <div><a href="#">18</a></div>
+          <div><a href="#">30</a></div>
+        </div>
+
       </div>
 
-      <div class="amount">
-        <div><a href="#">6</a></div>
-        <div><a href="#">18</a></div>
-        <div><a href="#">30</a></div>
-      </div>
+
 
 
       <div class="card-container">
+
+        <c:if test="${BList.size() == 0}">
+          <div class="empty">
+            검색한 게시물이 존재하지 않습니다!
+          </div>
+        </c:if>
+
+        <c:if test="${BList.size() > 0}">
         <c:forEach var="b" items="${BList}">
           <div class="card-wrapper">
             <section class="card" data-bno="${b.bno}">
               <div class="card-title-wrapper">
-                <h2 class="card-title">${b.shortTitle}</h2>
+                <h2 class="card-title">${b.shortTitle} [${b.replyCount}]</h2>
                 <div class="time-view-wrapper">
                   <div class="time">
                     <i class="far fa-clock"></i>
@@ -125,6 +138,7 @@ uri="http://java.sun.com/jsp/jstl/core" %>
           </div>
           <!-- end div.card-wrapper -->
         </c:forEach>
+      </c:if>
       </div>
       <!-- end div.card-container -->
 
@@ -133,46 +147,55 @@ uri="http://java.sun.com/jsp/jstl/core" %>
         <!-- 페이지 버튼 영역 -->
         <nav aria-label="Page navigation example">
           <ul class="pagination pagination-lg pagination-custom">
-            
-            <!-- 첫번 째 페이지로 -->
             <c:if test="${maker.pageInfo.pageNo != 1}">
               <li class="page-item">
-                <a class="page-link" href="/board/list?pageNo=1">&lt;&lt;</a>
+                <a
+                  class="page-link"
+                  href="/board/list?pageNo=1&type=${s.type}&keyword=${s.keyword}"
+                  >&lt;&lt;</a
+                >
               </li>
             </c:if>
 
-            <!-- 이전 페이지 -->
             <c:if test="${maker.prev}">
               <li class="page-item">
-                <a class="page-link" href="/board/list?pageNo=${maker.begin -1}"
-                  >prev</a>
+                <a
+                  class="page-link"
+                  href="/board/list?pageNo=${maker.begin - 1}&type=${s.type}&keyword=${s.keyword}"
+                  >prev</a
+                >
               </li>
             </c:if>
 
-            <!-- 페이지 -->
             <c:forEach var="i" begin="${maker.begin}" end="${maker.end}">
               <li data-page-num="${i}" class="page-item">
-                <a class="page-link" href="/board/list?pageNo=${i}">${i}</a>
+                <a
+                  class="page-link"
+                  href="/board/list?pageNo=${i}&type=${s.type}&keyword=${s.keyword}"
+                  >${i}</a
+                >
               </li>
             </c:forEach>
 
-            <!-- 다음 페이지 -->
             <c:if test="${maker.next}">
               <li class="page-item">
-                <a class="page-link" href="/board/list?pageNo=${maker.end + 1}"
+                <a
+                  class="page-link"
+                  href="/board/list?pageNo=${maker.end + 1}&type=${s.type}&keyword=${s.keyword}"
                   >next</a
                 >
               </li>
             </c:if>
 
-            <!-- 마지막 페이지로 -->
             <c:if test="${maker.pageInfo.pageNo != maker.finalPage}">
               <li class="page-item">
-                <a class="page-link" href="/board/list?pageNo=${maker.finalPage}">&gt;&gt;</a>
+                <a
+                  class="page-link"
+                  href="/board/list?pageNo=${maker.finalPage}&type=${s.type}&keyword=${s.keyword}"
+                  >&gt;&gt;</a
+                >
               </li>
             </c:if>
-
-
           </ul>
         </nav>
       </div>
@@ -229,7 +252,8 @@ uri="http://java.sun.com/jsp/jstl/core" %>
           // section태그에 붙은 글번호 읽기
           const bno = e.target.closest("section.card").dataset.bno;
           // 요청 보내기
-          window.location.href = "/board/detail?bno=" + bno;
+          window.location.href =
+            "/board/detail?bno=" + bno + "&pageNo=${s.pageNo}";
         }
       });
 
@@ -302,10 +326,26 @@ uri="http://java.sun.com/jsp/jstl/core" %>
         );
 
         // 3. 해당 li태그에 class = active를 추가한다.
-        $li.classList.add("active");
+        $li?.classList.add("active"); // $li?: $li가 null이 아니면
+      }
+
+      // 기존 검색 조건 option태그 고정하기 (검색버튼을 눌렀을 때 끝나고 유지되게)
+      function fixSearchOption() {
+        // 1. 방금 전에 어떤 조건을 검색했는지 값을 알아옴
+        const type = "${s.type}";
+        // console.log('type:' + type);
+
+        // 2. 해당 조건을 가진 option태그를 검색
+        const $option = document.querySelector(
+          `#search-type option[value='\${type}']`
+        );
+
+        // 3. 해당 태그에 selected 속성 부여
+        $option?.setAttribute("selected", "selected");
       }
 
       appendActivePage();
+      fixSearchOption();
     </script>
   </body>
 </html>

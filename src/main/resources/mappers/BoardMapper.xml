@@ -23,9 +23,20 @@
     </sql>
 
 
-    <select id="findAll" resultType="board">
-        SELECT * FROM tbl_board
+    <select id="findAll" resultType="com.study.springstudy.springmvc.chap04.dto.BoardFindAllDto">
+        SELECT
+            B.board_no,
+            B.title,
+            B.content,
+            B.writer,
+            B.reg_date_time,
+            B.view_count,
+            COUNT(R.reply_no) AS reply_count
+        FROM tbl_board B
+        LEFT OUTER JOIN tbl_reply R
+        ON B.board_no = R.board_no
         <include refid="search" />
+        GROUP BY B.board_no
         ORDER BY board_no DESC
         LIMIT #{pageStart}, #{amount}
     </select>

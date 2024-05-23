@@ -52,7 +52,8 @@
             margin-bottom: 5px;
             font-size: 20px;
         }
-        #title, #writer{
+
+        #title, #writer {
             font-size: 18px;
             width: 100%;
             padding: 8px;
@@ -108,6 +109,7 @@
 </head>
 <body>
 <div id="wrap" class="form-container">
+
     <h1>${bbb.boardNo}번 게시물 내용~ </h1>
     <h2># 작성일자: ${bbb.regDateTime}</h2>
     <label for="writer">작성자</label>
@@ -117,8 +119,14 @@
     <label for="content">내용</label>
     <div id="content">${bbb.content}</div>
     <div class="buttons">
-        <button class="list-btn" type="button" onclick="window.location.href='/board/list'">목록</button>
+        <button class="list-btn" type="button" onclick="window.location.href='${ref}'">목록</button>
     </div>
+
+
+    <!-- 댓글 영역 -->
+    <c:forEach var="r" items="${bbb.replies}">
+        <div>${r}</div>
+    </c:forEach>
 
 </div>
 </body>

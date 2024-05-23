@@ -1,12 +1,14 @@
 package com.study.springstudy.springmvc.chap04.service;
 
-import com.study.springstudy.springmvc.chap04.common.Page;
 import com.study.springstudy.springmvc.chap04.common.Search;
 import com.study.springstudy.springmvc.chap04.dto.BoarWriteRequestdDto;
 import com.study.springstudy.springmvc.chap04.dto.BoardDetailResponseDto;
+import com.study.springstudy.springmvc.chap04.dto.BoardFindAllDto;
 import com.study.springstudy.springmvc.chap04.dto.BoardListResponseDto;
 import com.study.springstudy.springmvc.chap04.entity.Board;
 import com.study.springstudy.springmvc.chap04.mapper.BoardMapper;
+import com.study.springstudy.springmvc.chap05.ReplyMapper;
+import com.study.springstudy.springmvc.chap05.entity.Reply;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -17,12 +19,13 @@ import java.util.stream.Collectors;
 @Service
 public class BoardService {
 
-    private final BoardMapper mapper;
+    private final BoardMapper boardMapper;
+    private final ReplyMapper replyMapper;
 
     // 목록 조회 중간처리
     public List<BoardListResponseDto> getList(Search page) {
 
-        List<Board> BoardList = mapper.findAll(page);
+        List<BoardFindAllDto> BoardList = boardMapper.findAll(page);
 
         // 조회해온 게시물 리스트에서 각 게시물들의 조회수를 확인하여
         // 조회수가 5이상인 게시물에 특정 마킹
@@ -34,29 +37,31 @@ public class BoardService {
 
     // 저장 중간처리
     public boolean insert(BoarWriteRequestdDto dto) {
-        return mapper.save(new Board(dto));
+        return boardMapper.save(new Board(dto));
     }
 
     // 삭제 중간처리
     public boolean remove(int boardNo) {
-        return mapper.delete(boardNo);
+        return boardMapper.delete(boardNo);
     }
 
-    // 개별조회 중간처리
-    public BoardDetailResponseDto retrieve(int bno) {
-
-        Board b = mapper.findOne(bno);
+    // 상세 조회 요청 중간처리
+    public BoardDetailResponseDto detail(int bno) {
+        Board b = boardMapper.findOne(bno);
         // 조회수 상승
-        if(b != null) mapper.upViewCount(bno);
+        if(b != null) boardMapper.upViewCount(bno);
 
+        // 상세조회 할 때 댓글 목록을 같이 조회
+        List<Reply> replies = replyMapper.findAll(bno);
 
-        BoardDetailResponseDto dto = new BoardDetailResponseDto(b);
-
-        return dto;
+        BoardDetailResponseDto responseDto = new BoardDetailResponseDto(b);
+        // 댓글 목록을 Dto로 보내
+        responseDto.setReplies(replies);
+        return responseDto;
     }
 
     // 총 게시물수 중간 처리
     public int getCount(Search search) {
-        return mapper.count(search);
+        return boardMapper.count(search);
     }
 }

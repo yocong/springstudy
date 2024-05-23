@@ -24,11 +24,11 @@ public class BoardListResponseDto {
     private int view; // 조회 수
     private boolean hit; // HIT 게시물인가?
     private boolean newArticle; // 새 게시물(1시간 이내)인가?
-
+    private int replyCount; // 총 댓글 수
 
     // 엔터티를 DTO로 변환하는 생성자
-    public BoardListResponseDto(Board b) {
-        this.bno = b.getBoardNo();
+    public BoardListResponseDto(BoardFindAllDto b) {
+        this.bno = (int) b.getBoardNo();
         this.shortTitle = makeShortTitle(b.getTitle());
         this.shortContent = makeShortContent(b.getContent());
 
@@ -38,6 +38,7 @@ public class BoardListResponseDto {
         this.view = b.getViewCount();
         this.hit = this.view > 5;
         this.newArticle = LocalDateTime.now().isBefore(regTime.plusMinutes(5));
+        this.replyCount = b.getReplyCount();
     }
 
     private String dateFormatting(LocalDateTime regDateTime) {
