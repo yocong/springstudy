@@ -1,4 +1,4 @@
-package com.study.springstudy.springmvc.chap05;
+package com.study.springstudy.springmvc.chap05.mapper;
 
 import com.study.springstudy.springmvc.chap05.entity.Reply;
 import org.apache.ibatis.annotations.Mapper;
