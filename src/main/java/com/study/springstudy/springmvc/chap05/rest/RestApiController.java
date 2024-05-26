@@ -9,13 +9,11 @@ import com.study.springstudy.springmvc.chap04.service.BoardService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 @RequestMapping("/rest")
 //@Controller
@@ -37,14 +35,14 @@ public class RestApiController {
     @GetMapping("/hobby")
     public List<String> hobby() {
         List<String> hobbies = List.of("태권도", "장기", "댄스");
-        return hobbies;
+        return hobbies; // json 형태로 응답
     }
 
     @GetMapping("/person")
     public Person person() {
         Person p = new Person(100, "핑구", 10);
 
-        return p;
+        return p; // json 형태로 응답
     }
 
     @GetMapping("/board")
