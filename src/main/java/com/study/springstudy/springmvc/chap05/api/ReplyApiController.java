@@ -20,6 +20,7 @@ import java.util.Map;
 @RequestMapping("/api/v1/replies")
 @RequiredArgsConstructor
 @Slf4j // 로그 라이브러리
+@CrossOrigin // CORS 정책 허용범위 설정, 나머지는 다 차단
 public class ReplyApiController {
 
     private final ReplyService replyService;
@@ -29,7 +30,7 @@ public class ReplyApiController {
     // @PathVariable : URL에 붙어있는 변수값을 읽는 어노테이션
     @GetMapping("/{bno}")
     public ResponseEntity<?> list(@PathVariable long bno) {
-
+    
         if (bno == 0) {
             String message = "글 번호는 0번이 될 수 없습니다.";
             log.warn(message);
