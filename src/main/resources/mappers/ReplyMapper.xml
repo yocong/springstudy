@@ -35,4 +35,12 @@
         WHERE board_no = #{boardNo}
     </select>
 
+    <select id="findBno" resultType="long">
+        SELECT
+            board_no
+        FROM
+            tbl_reply
+        WHERE reply_no = #{rno}
+    </select>
+
 </mapper>
