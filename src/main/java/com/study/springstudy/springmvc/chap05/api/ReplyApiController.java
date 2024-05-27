@@ -30,7 +30,7 @@ public class ReplyApiController {
     // @PathVariable : URL에 붙어있는 변수값을 읽는 어노테이션
     @GetMapping("/{bno}")
     public ResponseEntity<?> list(@PathVariable long bno) {
-    
+
         if (bno == 0) {
             String message = "글 번호는 0번이 될 수 없습니다.";
             log.warn(message);
@@ -80,7 +80,8 @@ public class ReplyApiController {
                 .body(replyService.getReplies(dto.getBno()));
     }
 
-
+    // 검증 오류 메시지 생성 함수
+    // -> result에서 오류를 추출하여 필드 이름을 키로, 해당 오류 메시지를 값으로하는 Map 생성
     private Map<String, String> makeValidationMessageMap(BindingResult result) {
         Map<String, String> errors = new HashMap<>();
 

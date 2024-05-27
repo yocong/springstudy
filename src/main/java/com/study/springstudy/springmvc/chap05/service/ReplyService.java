@@ -49,6 +49,7 @@ public class ReplyService {
 
     // 댓글 삭제
     @Transactional
+    // 삭제시 에러나 실패했을 때 원래의 데이터를 유지하게 하기위해서 @Transactional 어노테이션을 붙임
     public List<ReplyDetailDto> remove(long rno) {
         // 댓글 번호로 원본 글번호 찾기
         long bno = replyMapper.findBno(rno);
