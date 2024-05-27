@@ -24,6 +24,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+// db와 1대1 매칭되는 객체
 public class Reply {
 
     private long replyNo;

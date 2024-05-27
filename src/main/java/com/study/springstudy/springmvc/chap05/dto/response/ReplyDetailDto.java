@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @EqualsAndHashCode
 @Builder
+// 서버 -> 클라이언트, responseDto
 public class ReplyDetailDto {
 
     private long rno;
