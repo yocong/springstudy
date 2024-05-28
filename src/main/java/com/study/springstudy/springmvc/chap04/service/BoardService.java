@@ -52,11 +52,11 @@ public class BoardService {
         if(b != null) boardMapper.upViewCount(bno);
 
         // 상세조회 할 때 댓글 목록을 같이 조회
-        List<Reply> replies = replyMapper.findAll(bno);
+//        List<Reply> replies = replyMapper.findAll(bno);
 
         BoardDetailResponseDto responseDto = new BoardDetailResponseDto(b);
         // 댓글 목록을 Dto로 보내
-        responseDto.setReplies(replies);
+//        responseDto.setReplies(replies);
         return responseDto;
     }
 
