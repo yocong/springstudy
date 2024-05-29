@@ -20,15 +20,15 @@ const fetchDeleteReply = async (rno) => {
 
 // 댓글 삭제 처리 이벤트 등록 함수
 export function removeReplyClickEvent() {
-
+    // 버블링
     document.getElementById('replyData').addEventListener('click', e => {
 
-        e.preventDefault();
+        e.preventDefault(); // a태그 클릭 못하게 막음
         if (!e.target.matches('#replyDelBtn')) return;
 
         if (!confirm('정말 삭제할까요??')) return;
 
-        // console.log('삭제버튼 클릭!');
+        // 댓글번호
         const rno = e.target.closest('#replyContent').dataset.replyId;
         fetchDeleteReply(rno);
 

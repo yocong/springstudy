@@ -56,7 +56,7 @@ public class ReplyApiController {
 
     // 댓글 생성 요청 (요청할 때 JSON으로!!)
     // @RequestBody : 클라이언트가 전송한 데이터를 JSON으로 받아서 파싱
-    // = JSON 데아터 -> 자바 객체로 파싱
+    // = JSON 데이터 -> 자바 객체로 파싱
     // 검증할 Dto앞에 @Validated
     @PostMapping
     public ResponseEntity<?> posts(@Validated @RequestBody ReplyPostDto dto
@@ -113,6 +113,7 @@ public class ReplyApiController {
 
     // 댓글 수정 요청
     // PUT, PATCH매핑 둘 다 받을 수 있게
+    // @RequestBody : JSON 데이터 -> 자바 객체로 파싱
     @RequestMapping(method = {RequestMethod.PUT, RequestMethod.PATCH})
     public ResponseEntity<?> modify(
             @Validated @RequestBody ReplyModifyDto dto

@@ -199,7 +199,7 @@ function appendReplies({ replies }) {
     }
 
 
-
+    // += 으로 무한스크롤 시 댓글이 계속 뜨게함
     document.getElementById('replyData').innerHTML += tag;
 
     // 로드된 댓글 수 업데이트
@@ -211,12 +211,14 @@ function appendReplies({ replies }) {
 
 
 
-// 서버에서 댓글 데이터를 페칭
+// 서버에서 댓글 데이터를 페칭 (페칭: 비동기로 뜨게함)
+// pageNo = 1이 기본값
 export async function fetchInfScrollReplies(pageNo=1) {
 
+    // isFetching : false -> 서버에서 데이터를 가져오지 않는 상태
     if (isFetching) return; // 서버에서 데이터를 가져오는 중이면 return
 
-    isFetching = true;
+    isFetching = true; // 데이터를 가져오는 중
 
 
     const bno = document.getElementById('wrap').dataset.bno; // 게시물 글번호
@@ -232,7 +234,8 @@ export async function fetchInfScrollReplies(pageNo=1) {
         // 초기 댓글 reset
         document.getElementById('replyData').innerHTML = '';
 
-        setupInfiniteScroll();
+        // 무한 스크롤 생성
+        setupInfiniteScroll(); 
     }
 
     // 댓글 목록 렌더링
@@ -248,9 +251,8 @@ export async function fetchInfScrollReplies(pageNo=1) {
     }
 }
 
+
 // 스크롤 이벤트 핸들러 함수
-
-
 async function scrollHandler(e) {
 
     // 스크롤이 최하단부로 내려갔을 때만 이벤트 발생시켜야 함

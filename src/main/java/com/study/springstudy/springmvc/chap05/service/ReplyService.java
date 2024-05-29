@@ -52,9 +52,9 @@ public class ReplyService {
 
     // 댓글 수정
     public ReplyListDto modify(ReplyModifyDto dto) {
-
-        replyMapper.modify(dto.toEntity()); // dto -> entity로 변환
-
+        // dto -> entity로 변환
+        replyMapper.modify(dto.toEntity());
+        // 수정하고 다시 댓글 목록 반환 (수정사항 반영)
         return getReplies(dto.getBno(), new Page(1, 10));
     }
 
