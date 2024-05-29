@@ -30,7 +30,7 @@ document.getElementById('replyModBtn').addEventListener('click', e => {
 });
 
 
-
+// 댓글 수정 비동기 요청 처리 함수
 async function fetchReplyModify() {
 
   const payload = {
