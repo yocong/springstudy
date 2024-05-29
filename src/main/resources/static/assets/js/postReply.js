@@ -1,4 +1,4 @@
-import { renderReplies } from "./getReply.js";
+import { fetchInfScrollReplies } from "./getReply.js";
 import { BASE_URL } from "./reply.js"
 
 // 서버에 댓글 등록을 요청하는 비동기 함수
@@ -30,22 +30,9 @@ const replies = await res.json();
 textInput.value = '';
 writerInput.value = '';
 
-renderReplies(replies);
+// renderReplies(replies);
+fetchInfScrollReplies();
+window.scrollTo(0, 0); // 입력이 끝난 후 상단으로 이동
 };
 
-
-// // 서버에 댓글 삭제를 요청하는 비동기 함수
-// export const DeleteReplyPost = async () => {
-
-//   const rno = 784;
-//   fetch(`http://localhost:8383/api/v1/replies/${rno}`, {
-//     method: 'DELETE'
-//   })
-//     .then(res => res.json())
-//     .then(json => {
-//       console.log(json);
-//     })
-
-//     renderReplies();
-// }
 
