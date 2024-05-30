@@ -1,4 +1,4 @@
-m * {
+* {
     box-sizing: border-box;
 }
 
@@ -12,6 +12,13 @@ button {
     border: none;
 }
 
+.warning {
+    color: red;
+}
+
+.success {
+    color: skyblue;
+}
 
 
 #wrap {

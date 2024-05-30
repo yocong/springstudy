@@ -4,6 +4,7 @@ import com.study.springstudy.springmvc.chap05.dto.request.SignUpDto;
 import com.study.springstudy.springmvc.chap05.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -35,5 +36,16 @@ public class MemberController {
 
         boolean flag = memberService.join(dto);
         return flag ? "redirect:/board/list" : "redirect:/members/sign-up";
+    }
+
+    // 아이디, 이메일 중복검사 비동기 요청 처리
+    @GetMapping("/check")
+    @ResponseBody // 비동기이므로
+    public ResponseEntity<?> check(String type, String keyword) {
+        boolean flag = memberService.checkIdentifier(type, keyword);
+        log.debug("{} 중복체크 결과? {}", type, flag);
+        return ResponseEntity
+                .ok()
+                .body(flag);
     }
 }
