@@ -27,7 +27,7 @@ public class MemberService {
 
         // 2. 비밀번호를 인코딩 (암호화)
         String encodedPassword = encoder.encode(dto.getPassword());
-        member.setPassword(encodedPassword);
+        member.setPassword(encodedPassword); // 인코딩된 비밀번호를 setter를 통해 다시 보냄
 
         return memberMapper.save(member);
     }
