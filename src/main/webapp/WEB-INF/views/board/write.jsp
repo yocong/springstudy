@@ -4,22 +4,8 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>게시판 글쓰기</title>
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Single+Day&display=swap" rel="stylesheet">
-
-    <!-- reset -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reset-css@5.0.1/reset.min.css">
-
-    <!-- fontawesome css: https://fontawesome.com -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css">
-
-    <link rel="stylesheet" href="/assets/css/main.css">
+    <%@ include file="../include/static-head.jsp" %>
 
     <!-- ck editor -->
     <script src="https://cdn.ckeditor.com/4.17.2/standard/ckeditor.js"></script>
@@ -92,6 +78,9 @@
     </style>
 </head>
 <body>
+    
+    <%@ include file="../include/header.jsp" %>
+
 <div id="wrap" class="form-container">
     <h1>꾸러기 게시판 글쓰기</h1>
     <form action="/board/write" method="post">
