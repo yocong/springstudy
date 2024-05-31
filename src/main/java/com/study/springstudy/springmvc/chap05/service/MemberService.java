@@ -14,6 +14,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.servlet.http.HttpSession;
 
 import static com.study.springstudy.springmvc.chap05.service.LoginResult.*;
+import static com.study.springstudy.springmvc.util.LoginUtil.LOGIN;
 
 @Service
 @RequiredArgsConstructor // 의존 객체 주입
@@ -68,7 +69,7 @@ public class MemberService {
         log.debug("sessiontime: {}", maxInactiveInterval);
 
         // 클라이언트에 보낼 정보를 담은 LoginUserInfoDto (비번 제외)
-        session.setAttribute("login", new LoginUserInfoDto(foundMember));
+        session.setAttribute(LOGIN, new LoginUserInfoDto(foundMember));
 
         return SUCCESS;
     }

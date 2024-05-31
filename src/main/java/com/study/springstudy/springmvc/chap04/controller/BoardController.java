@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Controller
@@ -51,9 +52,9 @@ public class BoardController {
     // 3. 게시글 등록 요청 (/board/write : POST)
     // -> 목록 조회 요청 리다이렉션
     @PostMapping("/write")
-    public String register(BoarWriteRequestdDto dto) {
+    public String register(BoarWriteRequestdDto dto, HttpSession session) {
 
-        service.insert(dto);
+        service.insert(dto, session);
 
         return "redirect:/board/list";
     }
