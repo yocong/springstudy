@@ -18,6 +18,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 @Controller
 @RequestMapping("/members")
 @Slf4j
@@ -65,12 +68,17 @@ public class MemberController {
 
     // 로그인 요청 처리
     @PostMapping("/sign-in")
-    public String signIn(LoginDto dto, RedirectAttributes ra) {
+    public String signIn(LoginDto dto,
+                         RedirectAttributes ra,
+                         HttpServletRequest request) {
         log.info("/members/sign-in POST");
         // LoginDto에 @Setter 없으면 에러! (로그의 중요성) 꼭 찍어보자
         log.debug("parameter: {}", dto);
 
-        LoginResult result = memberService.authenticate(dto);
+        // 세션 얻기
+        HttpSession session = request.getSession();
+
+        LoginResult result = memberService.authenticate(dto, session);
 
         // 로그인 검증 결과를 수송객체를 통해 JSP에게 보내기
         // Redirect시에  Redirect된 페이지에 데이터를 보낼 떄는
@@ -86,5 +94,19 @@ public class MemberController {
         }
 
         return "redirect:/members/sign-in"; // 로그인 실패시 다시 제자리
+    }
+
+    @GetMapping("/sign-out")
+    public String signOut(HttpSession session) {
+        // 세션구하기
+        // 스프링에서 HttpSession 파라미터로 하면 request에서 session 구해줌
+//        HttpSession session = request.getSession();
+
+        // 세션에서 로그인 기록 삭제
+        session.removeAttribute("login");
+        // 세션을 초기화
+        session.invalidate();
+        // 홈으로 보내기
+        return "redirect:/";
     }
 }

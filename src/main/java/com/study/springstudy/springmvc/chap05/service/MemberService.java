@@ -2,12 +2,16 @@ package com.study.springstudy.springmvc.chap05.service;
 
 import com.study.springstudy.springmvc.chap05.dto.request.LoginDto;
 import com.study.springstudy.springmvc.chap05.dto.request.SignUpDto;
+import com.study.springstudy.springmvc.chap05.dto.response.LoginUserInfoDto;
 import com.study.springstudy.springmvc.chap05.entity.Member;
 import com.study.springstudy.springmvc.chap05.mapper.MemberMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import javax.servlet.http.HttpSession;
 
 import static com.study.springstudy.springmvc.chap05.service.LoginResult.*;
 
@@ -33,7 +37,7 @@ public class MemberService {
     }
 
     // 로그인 검증 처리
-    public LoginResult authenticate(LoginDto dto) {
+    public LoginResult authenticate(LoginDto dto, HttpSession session) {
 
         // 회원가입 여부 확인
         String account = dto.getAccount();
@@ -57,6 +61,15 @@ public class MemberService {
         }
 
         log.info("{}님 로그인 성공", foundMember.getName());
+
+        // 세션의 수명 : 설정된 시간 OR 브라우저를 닫기 전까지
+        int maxInactiveInterval = session.getMaxInactiveInterval();
+        session.setMaxInactiveInterval(60 * 60); // 세션 수명 1시간 설정
+        log.debug("sessiontime: {}", maxInactiveInterval);
+
+        // 클라이언트에 보낼 정보를 담은 LoginUserInfoDto (비번 제외)
+        session.setAttribute("login", new LoginUserInfoDto(foundMember));
+
         return SUCCESS;
     }
 
