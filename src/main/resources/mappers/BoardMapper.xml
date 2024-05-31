@@ -31,7 +31,8 @@
             B.writer,
             B.reg_date_time,
             B.view_count,
-            COUNT(R.reply_no) AS reply_count
+            COUNT(R.reply_no) AS reply_count,
+            B.account
         FROM tbl_board B
         LEFT OUTER JOIN tbl_reply R
         ON B.board_no = R.board_no
