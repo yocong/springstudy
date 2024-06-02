@@ -4,6 +4,7 @@ import com.study.springstudy.springmvc.chap05.dto.response.LoginUserInfoDto;
 
 import javax.servlet.http.HttpSession;
 
+// 로그인과 관련된 여러 가지 유용한 기능을 제공
 public class LoginUtil {
 
     public static final String LOGIN = "login";

@@ -39,10 +39,11 @@ public class BoardService {
 
     // 저장 중간처리
     public boolean insert(BoarWriteRequestdDto dto, HttpSession session) {
+        // db에 접근하기 위해 dto -> entity로 바꿔서 접근
         Board b = dto.toEntity();
         // 계정명을 엔터티에 추가 - 세션에서 계정명 가져오기
         b.setAccount(LoginUtil.getLoggedInUserAccount(session));
-        
+
         return boardMapper.save(b);
     }
 

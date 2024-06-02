@@ -40,7 +40,7 @@ public class MemberService {
     // 로그인 검증 처리
     public LoginResult authenticate(LoginDto dto, HttpSession session) {
 
-        // 회원가입 여부 확인
+        // 회원의 아이디를 통해 회원가입 여부 확인 (findOne)
         String account = dto.getAccount();
         Member foundMember = memberMapper.findOne(account);
 
@@ -68,7 +68,8 @@ public class MemberService {
         session.setMaxInactiveInterval(60 * 60); // 세션 수명 1시간 설정
         log.debug("sessiontime: {}", maxInactiveInterval);
 
-        // 클라이언트에 보낼 정보를 담은 LoginUserInfoDto (비번 제외)
+        // 로그인에 성공했을 때 클라이언트에 보낼 정보를 LoginUserInfoDto 객체에 담아서
+        // 로그인한 사용자의 정보를 세션에 저장! (비밀번호는 제외)
         session.setAttribute(LOGIN, new LoginUserInfoDto(foundMember));
 
         return SUCCESS;

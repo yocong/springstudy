@@ -8,7 +8,7 @@ import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 // 만들어 놓은 인터셉터들을 스프링 컨텍스트에 등록하는 설정 파일
-@Configuration
+@Configuration // 설정파일을 의미
 @RequiredArgsConstructor
 public class InterceptorConfig implements WebMvcConfigurer {
 

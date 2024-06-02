@@ -17,6 +17,8 @@ public class AfterLoginInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         log.debug("after login interceptor execute!");
+        // 로그인이 되었다면 홈으로 redirect
+        // InterceptorConfig에 설정된 부분은 진입 차단 (false 이므로)
         if (LoginUtil.isLoggedIn(request.getSession())) {
             response.sendRedirect("/");
         return false; // true일 경우 컨트롤러 진입 허용, false 진입 차단

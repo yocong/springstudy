@@ -60,15 +60,14 @@ public class MemberController {
     }
 
     // 로그인 양식 열기
+    // @RequestParam(required = false) String redirect
+    // -> 사용자가 로그인한 후에 가고 싶어하는 페이지 주소 (이 요청이 필수는 아니야!)
     @GetMapping("/sign-in")
     public String signIn(HttpSession session
                         , @RequestParam(required = false) String redirect)
     {
 
-        // 로그인을 한 사람이 이 요청을 보내면 돌려보낸다.
-//        if (LoginUtil.isLoggedIn(session)) {
-//            return "redirect:/";
-//        }
+        // redirect를 session에 저장 (로그인 후에 어디 갈지 기억함)
         session.setAttribute("redirect", redirect);
 
         log.info("/members/sign-in GET : forwarding to sign-in.jsp");
@@ -80,9 +79,9 @@ public class MemberController {
     public String signIn(LoginDto dto,
                          RedirectAttributes ra,
                          HttpServletRequest request) {
-        log.info("/members/sign-in POST");
+        log.info("/members/sign-in POST"); // 로그에 "로그인 요청이 들어왔어요"라고 기록
         // LoginDto에 @Setter 없으면 에러! (로그의 중요성) 꼭 찍어보자
-        log.debug("parameter: {}", dto);
+        log.debug("parameter: {}", dto); // 사용자가 입력한 로그인 정보를 로그에 기록
 
         // 세션 얻기
         HttpSession session = request.getSession();
@@ -100,7 +99,7 @@ public class MemberController {
 
         if(result == LoginResult.SUCCESS) {
 
-            // 혹시 세션에 리다이렉트 URL이 있다면
+            // 혹시 세션에 저장된 리다이렉트 URL이 있다면
             String redirect = (String) session.getAttribute("redirect");
             if (redirect != null) {
                 session.removeAttribute("redirect");
@@ -120,6 +119,7 @@ public class MemberController {
 //        HttpSession session = request.getSession();
 
         // 세션에서 로그인 기록 삭제
+        // LoginUtil에서 로그인에 대한 정보는 "login"에 있기 떄문에
         session.removeAttribute("login");
         // 세션을 초기화
         session.invalidate();
