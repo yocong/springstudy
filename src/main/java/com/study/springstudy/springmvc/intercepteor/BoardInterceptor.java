@@ -25,7 +25,7 @@ public class BoardInterceptor implements HandlerInterceptor {
             return false;
         }
 
-        // 삭제요청이 들어오면 서버에서 한번 더 관리자인지? 자기가 쓴 글인지 체크
+        // 삭제요청이 들어오면 서버에서 한번 더 관리자인지? 자기가 쓴 글인지 체크하여 관리자이거나 자기가 쓴 글이면 삭제되게함
 
         return true;
     }
