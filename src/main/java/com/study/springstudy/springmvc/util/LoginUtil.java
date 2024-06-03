@@ -41,7 +41,7 @@ public class LoginUtil {
         return auth == Auth.ADMIN;
     }
 
-    // boardAccount, loggedInUserAccount가 같으면 true
+    // 본인 글인가?, boardAccount, loggedInUserAccount가 같으면 true
     public static boolean isMine(String boardAccount, String loggedInUserAccount) {
         return boardAccount.equals(loggedInUserAccount);
     }

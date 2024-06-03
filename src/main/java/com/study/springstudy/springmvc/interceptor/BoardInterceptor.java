@@ -38,6 +38,7 @@ public class BoardInterceptor implements HandlerInterceptor {
             return false;
         }
 
+
         // 삭제요청이 들어오면 서버에서 한번더 관리자인지? 자기가쓴글인지 체크
         // 관리자인가?
         if (isAdmin(session)) {
@@ -57,7 +58,7 @@ public class BoardInterceptor implements HandlerInterceptor {
             String loggedInUserAccount = getLoggedInUserAccount(session);
 
             // 대조해보는 작업이 필요함
-            if (!   isMine(boardAccount, loggedInUserAccount)) {
+            if (!isMine(boardAccount, loggedInUserAccount)) {
                 response.sendRedirect("/access-deny?message=authorization");
                 return false;
             }

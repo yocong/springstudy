@@ -48,7 +48,7 @@ public class RestApiController {
     @GetMapping("/board")
     public Map<String, Object> board() {
 
-        List<BoardListResponseDto> list = boardService.getList(new Search());
+        List<BoardListResponseDto> list = boardService.findList(new Search());
 
         HashMap<String, Object> map = new HashMap<>();
         map.put("page", new PageMaker(new Page(), boardService.getCount(new Search())));

@@ -1,6 +1,6 @@
 package com.study.springstudy.springmvc.chap04.entity;
 
-import com.study.springstudy.springmvc.chap04.dto.BoarWriteRequestdDto;
+import com.study.springstudy.springmvc.chap04.dto.BoardWriteRequestDto;
 import lombok.*;
 
 import java.sql.ResultSet;
@@ -33,7 +33,7 @@ public class Board {
     }
 
 
-    public Board(BoarWriteRequestdDto dto) {
+    public Board(BoardWriteRequestDto dto) {
         this.title = dto.getTitle();
         this.content = dto.getContent();
         this.writer = dto.getWriter();
