@@ -74,7 +74,7 @@ public class BoardService {
         String currentUserAccount = getLoggedInUserAccount(session);
 
         if (!isLoggedIn(session) || isMine(b.getAccount(), currentUserAccount)) {
-            return new BoardDetailResponseDto(b);
+            return new BoardDetailResponseDto(b); // 게시물만 반환 (조회수 X)
         }
 
         // 조회수가 올라가는 조건처리 (쿠키버전)
@@ -89,6 +89,7 @@ public class BoardService {
         ViewLog viewLog = viewLogMapper.findOne(currentUserAccount, boardNo);
 
         boolean shouldIncrease = false; // 조회수 올려도 되는지??
+        // 조회 로그 기록 (누가, 어떤 게시글을, 언제 보았는지 기록함)
         ViewLog viewLogEntity = ViewLog.builder()
                 .account(currentUserAccount)
                 .boardNo(boardNo)
@@ -110,6 +111,7 @@ public class BoardService {
             }
         }
 
+        // 처음 조회되거나 조회한지 1시간이 지난 게시물일 경우 조회수 상승하고 게시물 반환
         if (shouldIncrease) {
             boardMapper.upViewCount(boardNo);
         }
@@ -127,33 +129,33 @@ public class BoardService {
         - 쿠키 생성 예시
           Cookie(name= view_101, 2024-06-03 14:11:30)
      */
-    private boolean shouldIncreaseViewCount(int bno,
-                                            HttpServletRequest request,
-                                            HttpServletResponse response) {
-
-        // 쿠키 검사
-        String cookieName = "view_" + bno;
-        Cookie viewCookie = WebUtils.getCookie(request, cookieName);
-
-        // 이 게시물에 대한 쿠키가 존재 -> 아까 조회한 게시물
-        if (viewCookie != null) {
-            return false;
-        }
-
-        // 쿠키 생성
-        makeViewCookie(cookieName, response);
-        return true;
-    }
-
-    // 조회수 쿠키를 생성하고 클라이언트에 전송하는 메서드
-    private void makeViewCookie(String cookieName, HttpServletResponse response) {
-        Cookie newCookie = new Cookie(cookieName, LocalDateTime.now().toString());
-        newCookie.setPath("/"); // 쿠키 사용 범위 결정
-        newCookie.setMaxAge(60 * 60);
-
-        response.addCookie(newCookie);
-
-    }
+//    private boolean shouldIncreaseViewCount(int bno,
+//                                            HttpServletRequest request,
+//                                            HttpServletResponse response) {
+//
+//        // 쿠키 검사
+//        String cookieName = "view_" + bno;
+//        Cookie viewCookie = WebUtils.getCookie(request, cookieName);
+//
+//        // 이 게시물에 대한 쿠키가 존재 -> 아까 조회한 게시물
+//        if (viewCookie != null) {
+//            return false;
+//        }
+//
+//        // 쿠키 생성
+//        makeViewCookie(cookieName, response);
+//        return true;
+//    }
+//
+//    // 조회수 쿠키를 생성하고 클라이언트에 전송하는 메서드
+//    private void makeViewCookie(String cookieName, HttpServletResponse response) {
+//        Cookie newCookie = new Cookie(cookieName, LocalDateTime.now().toString());
+//        newCookie.setPath("/"); // 쿠키 사용 범위 결정
+//        newCookie.setMaxAge(60 * 60);
+//
+//        response.addCookie(newCookie);
+//
+//    }
 
 
     public int getCount(Search search) {
