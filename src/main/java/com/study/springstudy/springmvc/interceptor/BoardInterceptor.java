@@ -57,7 +57,7 @@ public class BoardInterceptor implements HandlerInterceptor {
             String loggedInUserAccount = getLoggedInUserAccount(session);
 
             // 대조해보는 작업이 필요함
-            if (!isMine(boardAccount, loggedInUserAccount)) {
+            if (!   isMine(boardAccount, loggedInUserAccount)) {
                 response.sendRedirect("/access-deny?message=authorization");
                 return false;
             }

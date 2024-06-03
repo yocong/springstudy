@@ -12,8 +12,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.util.WebUtils;
 
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
@@ -113,4 +115,24 @@ public class MemberService {
         return memberMapper.existsById(type, keyword);
     }
 
+    // 자동로그인 관련데이터를 원래대로 바꿔놓기
+    public void autoLoginClear(HttpServletRequest request, HttpServletResponse response) {
+
+        // 1. 쿠키 제거하기
+        Cookie c = WebUtils.getCookie(request, AUTO_LOGIN_COOKIE);
+        if (c != null) {
+            c.setPath("/");
+            c.setMaxAge(0); // 쿠키수명을 0으로 설정하고 보내면 사라짐
+            response.addCookie(c);
+        }
+
+        // 2. DB에 자동로그인 컬럼들을 원래대로 돌려놓음
+        memberMapper.updateAutoLogin(
+                AutoLoginDto.builder()
+                        .sessionId("none")
+                        .limitTime(LocalDateTime.now())
+                        .account(LoginUtil.getLoggedInUserAccount(request.getSession()))
+                        .build()
+        );
+    }
 }
