@@ -18,6 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 @Controller
@@ -78,7 +79,8 @@ public class MemberController {
     @PostMapping("/sign-in")
     public String signIn(LoginDto dto,
                          RedirectAttributes ra,
-                         HttpServletRequest request) {
+                         HttpServletRequest request,
+                         HttpServletResponse response) {
         log.info("/members/sign-in POST"); // 로그에 "로그인 요청이 들어왔어요"라고 기록
         // LoginDto에 @Setter 없으면 에러! (로그의 중요성) 꼭 찍어보자
         log.debug("parameter: {}", dto); // 사용자가 입력한 로그인 정보를 로그에 기록
@@ -86,7 +88,7 @@ public class MemberController {
         // 세션 얻기
         HttpSession session = request.getSession();
 
-        LoginResult result = memberService.authenticate(dto, session);
+        LoginResult result = memberService.authenticate(dto, session, response);
 
         // 로그인 검증 결과를 수송객체를 통해 JSP에게 보내기
         // Redirect시에  Redirect된 페이지에 데이터를 보낼 떄는

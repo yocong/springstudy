@@ -9,6 +9,7 @@ import javax.servlet.http.HttpSession;
 public class LoginUtil {
 
     public static final String LOGIN = "login";
+    public static final String AUTO_LOGIN_COOKIE = "auto";
 
     // 로그인 여부 확인
     public static boolean isLoggedIn(HttpSession session) {
