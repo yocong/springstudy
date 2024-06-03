@@ -74,6 +74,7 @@ public class MemberService {
             // - 쿠키 내부에 절대로 중복되지 않는 유니크한 값을 저장
             //   (UUID, SessionID)
             String sessionId = session.getId();
+            // "auto" 상태, sessionId 필요
             Cookie autoLoginCookie = new Cookie(AUTO_LOGIN_COOKIE, sessionId);
             // 쿠키 설정
             autoLoginCookie.setPath("/"); // 쿠키를 사용할 경로
@@ -106,6 +107,7 @@ public class MemberService {
         session.setMaxInactiveInterval(60 * 60); // 세션 수명 1시간 설정
         log.debug("session time: {}", maxInactiveInterval);
 
+        // 여기를 거쳐야 로그인이됨!
         session.setAttribute(LOGIN, new LoginUserInfoDto(foundMember));
     }
 

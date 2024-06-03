@@ -31,7 +31,7 @@ public class LoginUtil {
         return (LoginUserInfoDto) session.getAttribute(LOGIN);
     }
 
-    // 로그인했으면? 그 권한정보가 관리자면 반환
+    // 로그인한 회원의 권한정보가 관리자면 반환
     public static boolean isAdmin(HttpSession session) {
         LoginUserInfoDto loggedInUser = getLoggedInUser(session);
         Auth auth = null;
@@ -46,7 +46,7 @@ public class LoginUtil {
         return boardAccount.equals(loggedInUserAccount);
     }
 
-    // 쿠키가 있으면 null X
+    // 쿠키가 있다면? 자동로그인 상태!
     public static boolean isAutoLogin(HttpServletRequest request) {
         Cookie autoLoginCookie = WebUtils.getCookie(request, AUTO_LOGIN_COOKIE);
         return autoLoginCookie!= null;

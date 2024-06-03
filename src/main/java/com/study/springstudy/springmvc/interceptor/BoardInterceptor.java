@@ -32,14 +32,15 @@ public class BoardInterceptor implements HandlerInterceptor {
         // 요청 URL
         String redirectUri = request.getRequestURI();
 
+        ////////////// 로그인이 안됐다면? //////////////
         if (!isLoggedIn(session)) {
             log.info("origin: {}", redirectUri);
             response.sendRedirect("/members/sign-in?message=login-required&redirect=" + redirectUri);
             return false;
         }
 
-
-        // 삭제요청이 들어오면 서버에서 한번더 관리자인지? 자기가쓴글인지 체크
+        ////////////// 로그인이 되었다면? //////////////
+        // 삭제요청이 들어오면 서버에서 한번더 관리자인지? 자기가쓴글인지 체크 (관리자 or 본인일 경우 글 삭제 가능)
         // 관리자인가?
         if (isAdmin(session)) {
             return true;
@@ -54,10 +55,10 @@ public class BoardInterceptor implements HandlerInterceptor {
             Board board = boardMapper.findOne(bno);
             String boardAccount = board.getAccount();
 
-            // 현재 로그인한 회원의 계정명을 구해서
+            // 현재 로그인한 회원의 계정명을 구해
             String loggedInUserAccount = getLoggedInUserAccount(session);
 
-            // 대조해보는 작업이 필요함
+            // 본인이 아니라면 에러 페이지 반환
             if (!isMine(boardAccount, loggedInUserAccount)) {
                 response.sendRedirect("/access-deny?message=authorization");
                 return false;
