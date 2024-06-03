@@ -9,10 +9,7 @@ import com.study.springstudy.springmvc.chap04.service.BoardService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -37,7 +34,7 @@ public class BoardController {
         // 페이지 정보를 생성하여 JSP에게 전송
         PageMaker maker = new PageMaker(page, service.getCount(page));
 
-        model.addAttribute("BList", dtos);
+        model.addAttribute("bList", dtos);
         model.addAttribute("maker", maker);
         return "board/list";
     }
@@ -62,9 +59,9 @@ public class BoardController {
     // 4. 게시글 삭제 요청 (/board/delete : GET)
     // -> 목록 조회 요청 리다이렉션
     @GetMapping("/delete")
-    public String delete(int boardNo) {
+    public String delete(@RequestParam int bno) {
 
-        service.remove(boardNo);
+        service.remove(bno);
 
         return "redirect:/board/list";
     }

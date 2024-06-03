@@ -1,4 +1,4 @@
-package com.study.springstudy.springmvc.intercepteor;
+package com.study.springstudy.springmvc.interceptor;
 
 import com.study.springstudy.springmvc.util.LoginUtil;
 import lombok.extern.slf4j.Slf4j;

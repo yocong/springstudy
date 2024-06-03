@@ -1,7 +1,7 @@
 package com.study.springstudy.springmvc.config;
 
-import com.study.springstudy.springmvc.intercepteor.AfterLoginInterceptor;
-import com.study.springstudy.springmvc.intercepteor.BoardInterceptor;
+import com.study.springstudy.springmvc.interceptor.AfterLoginInterceptor;
+import com.study.springstudy.springmvc.interceptor.BoardInterceptor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;

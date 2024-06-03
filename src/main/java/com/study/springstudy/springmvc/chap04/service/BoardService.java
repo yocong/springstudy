@@ -37,7 +37,7 @@ public class BoardService {
         return dtoList;
     }
 
-    // 저장 중간처리
+    // 등록 요청 중간처리
     public boolean insert(BoarWriteRequestdDto dto, HttpSession session) {
         // db에 접근하기 위해 dto -> entity로 바꿔서 접근
         Board b = dto.toEntity();
