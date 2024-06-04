@@ -37,7 +37,7 @@ export const fetchReplyPost = async () => {
   // const replies = await res.json();
 
   textInput.value = '';
-  writerInput.value = '';
+  // writerInput.value = '';
 
   // console.log(replies);
   // renderReplies(replies);
