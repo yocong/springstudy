@@ -9,6 +9,7 @@ import lombok.*;
 @Builder
 public class ReactionDto {
 
+    // 클릭할 때 마다 들어오는 실시간 데이터 비동기
     // 좋아요 처리를 위해 클라이언트에 보낼 JSON
     private int likeCount; // 갱신된 총 좋아요 수
     private int dislikeCount; // 갱신된 총 싫어요 수

@@ -32,16 +32,17 @@
                     <div class="reaction-buttons">
                       <button id="like-btn">
                         <i class="fas fa-thumbs-up"></i> 좋아요
-                        <span id="like-count">0</span>
+                        <span id="like-count">${bbb.likeCount}</span>
                       </button>
                       <button
                         id="dislike-btn"
                         class="dislike-btn"
                       >
                         <i class="fas fa-thumbs-down"></i> 싫어요
-                        <span id="dislike-count">0</span>
+                        <span id="dislike-count">${bbb.dislikeCount}</span>
                       </button>
                     </div>
+
             
                     <button
                       class="list-btn"
@@ -159,6 +160,11 @@
             
             <script>
 
+                // 렌더링 초기에 버튼활성화
+                const userReaction = '${bbb.userReaction}';
+                updateReactionButtons(userReaction);
+
+
                 // 서버에 좋아요, 싫어요 요청을 보내는 함수
                 async function sendReaction(reactionType) {
                     console.log(reactionType);
@@ -166,6 +172,13 @@
 
                     // jsp파일에서 \를 쓰면 js코드임을 알려줌 (jsp랑 구분)
                     const res = await fetch(`/board/\${reactionType}?bno=\${bno}`);
+
+                    if (res.status === 403) {
+                        const msg = await res.text();
+                        alert(msg);
+                        return;
+                    }
+
                     const { likeCount, dislikeCount, userReaction } = await res.json();
 
                     document.getElementById('like-count').textContent = likeCount;

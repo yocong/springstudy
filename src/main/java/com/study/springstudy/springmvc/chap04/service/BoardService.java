@@ -7,7 +7,9 @@ import com.study.springstudy.springmvc.chap04.dto.BoardListResponseDto;
 import com.study.springstudy.springmvc.chap04.dto.BoardWriteRequestDto;
 import com.study.springstudy.springmvc.chap04.entity.Board;
 import com.study.springstudy.springmvc.chap04.mapper.BoardMapper;
+import com.study.springstudy.springmvc.chap05.entity.Reaction;
 import com.study.springstudy.springmvc.chap05.entity.ViewLog;
+import com.study.springstudy.springmvc.chap05.mapper.ReactionMapper;
 import com.study.springstudy.springmvc.chap05.mapper.ViewLogMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -29,6 +31,7 @@ public class BoardService {
 
     private final BoardMapper boardMapper;
     private final ViewLogMapper viewLogMapper;
+    private final ReactionMapper reactionMapper;
 
     // 목록 조회 요청 중간처리
     public List<BoardListResponseDto> findList(Search page) {
@@ -73,8 +76,20 @@ public class BoardService {
         // 로그인 계정명
         String currentUserAccount = getLoggedInUserAccount(session);
 
+        // 상세조회시 초기렌더링에 그려질 데이터
+        BoardDetailResponseDto responseDto = new BoardDetailResponseDto(b);
+        responseDto.setLikeCount(reactionMapper.countLikes(bno));
+            responseDto.setDislikeCount(reactionMapper.countDislikes(bno));
+
+            Reaction reaction = reactionMapper.findOne(bno, currentUserAccount);
+            String type = null;
+            if (reaction != null) {
+                type = reaction.getReactionType().toString();
+        }
+        responseDto.setUserReaction(type);
+
         if (!isLoggedIn(session) || isMine(b.getAccount(), currentUserAccount)) {
-            return new BoardDetailResponseDto(b); // 게시물만 반환 (조회수 X)
+            return responseDto; // 게시물만 반환 (조회수 X)
         }
 
         // 조회수가 올라가는 조건처리 (쿠키버전)
@@ -115,7 +130,7 @@ public class BoardService {
         if (shouldIncrease) {
             boardMapper.upViewCount(boardNo);
         }
-        return new BoardDetailResponseDto(b);
+        return responseDto;
 
     }
 
