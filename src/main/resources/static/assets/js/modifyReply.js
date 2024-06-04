@@ -1,5 +1,7 @@
 import { BASE_URL } from "./reply.js";
 import { fetchInfScrollReplies } from "./getReply.js";
+import { callApi } from "./api.js";
+
 // 수정 이벤트 등록 함수
 export function modifyReplyClickEvent() {
 
@@ -40,17 +42,18 @@ async function fetchReplyModify() {
     bno: document.getElementById('wrap').dataset.bno
   };
 
-  const res = await fetch(BASE_URL, {
-    method: 'PUT',
-    headers: {
-      'content-type': 'application/json'
-    },
-    body: JSON.stringify(payload)
-  });
+  await callApi(BASE_URL, 'PUT', payload);
+  // const res = await fetch(BASE_URL, {
+  //   method: 'PUT',
+  //   headers: {
+  //     'content-type': 'application/json'
+  //   },
+  //   body: JSON.stringify(payload)
+  // });
 
-  if(!res.ok) {
-    alert('수정 실패!');
-  }
+  // if(!res.ok) {
+  //   alert('수정 실패!');
+  // }
   
   // 모달 닫기
   document.getElementById('modal-close').click();

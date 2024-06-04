@@ -1,6 +1,7 @@
 package com.study.springstudy.springmvc.config;
 
 import com.study.springstudy.springmvc.interceptor.AfterLoginInterceptor;
+import com.study.springstudy.springmvc.interceptor.ApiAuthInterceptor;
 import com.study.springstudy.springmvc.interceptor.AutoLoginInterceptor;
 import com.study.springstudy.springmvc.interceptor.BoardInterceptor;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +17,7 @@ public class InterceptorConfig implements WebMvcConfigurer {
     private final AfterLoginInterceptor afterLoginInterceptor;
     private final BoardInterceptor boardInterceptor;
     private final AutoLoginInterceptor autoLoginInterceptor;
+    private final ApiAuthInterceptor apiAuthInterceptor;
 
     // 설정 메서드
     @Override
@@ -37,5 +39,10 @@ public class InterceptorConfig implements WebMvcConfigurer {
         registry
                 .addInterceptor(autoLoginInterceptor)
                 .addPathPatterns("/**"); // 어디로 들어오든 자동로그인
+        // REST API 인가 처리 인터셉터 등록
+        registry
+                .addInterceptor(apiAuthInterceptor)
+                .addPathPatterns("/api/v1/**")
+                .excludePathPatterns("/api/v1/replies/*/page/*");
     }
 }
