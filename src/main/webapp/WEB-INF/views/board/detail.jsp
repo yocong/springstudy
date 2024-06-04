@@ -7,129 +7,9 @@
             
             <%@ include file="../include/static-head.jsp" %>
 
+            <link rel="stylesheet" href="/assets/css/detail.css">
 
-
-
-            <style>
-                .form-container {
-                    width: 500px;
-                    margin: auto;
-                    padding: 20px;
-                    background-image: linear-gradient(135deg, #a1c4fd, #fbc2eb);
-                    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-                    border-radius: 4px;
-                    font-size: 18px;
-                }
-
-                .form-container h1 {
-                    font-size: 40px;
-                    font-weight: 700;
-                    letter-spacing: 10px;
-                    text-align: center;
-                    margin-bottom: 20px;
-                    color: #ffffff;
-                }
-
-                .form-container h2 {
-                    font-size: 30px;
-                    color: #222;
-                    text-align: center;
-                    margin-bottom: 20px;
-                }
-
-                label {
-                    display: block;
-                    margin-bottom: 5px;
-                    font-size: 20px;
-                }
-
-                #title,
-                #writer {
-                    font-size: 18px;
-                    width: 100%;
-                    padding: 8px;
-                    box-sizing: border-box;
-                    border: 2px solid #ffffff;
-                    border-radius: 8px;
-                    margin-bottom: 10px;
-                    background-color: rgba(255, 255, 255, 0.8);
-                }
-
-                #content {
-                    height: 400px;
-                    font-size: 18px;
-                    width: 100%;
-                    padding: 8px;
-                    box-sizing: border-box;
-                    border: 2px solid #ffffff;
-                    border-radius: 8px;
-                    margin-bottom: 10px;
-                    background-color: rgba(255, 255, 255, 0.8);
-                }
-
-                textarea {
-                    resize: none;
-                    height: 200px;
-                }
-
-                .buttons {
-                    display: flex;
-                    justify-content: flex-end;
-                    margin-top: 20px;
-                }
-
-                button {
-                    font-size: 20px;
-                    padding: 10px 20px;
-                    border: none;
-                    margin-right: 10px;
-                    background-color: #4CAF50;
-                    color: white;
-                    cursor: pointer;
-                    border-radius: 4px;
-                    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-                    transition: background-color 0.3s;
-                }
-
-                button.list-btn {
-                    background: #e61e8c;
-                }
-
-                button:hover {
-                    background-color: #3d8b40;
-                }
-
-                button.list-btn:hover {
-                    background: #e61e8c93;
-                }
-
-                /* 페이지 css */
-                /* 페이지 액티브 기능 */
-                .pagination .page-item.p-active a {
-                    background: #333 !important;
-                    color: #fff !important;
-                    cursor: default;
-                    pointer-events: none;
-                }
-
-                .pagination .page-item:hover a {
-                    background: #888 !important;
-                    color: #fff !important;
-                }
-
-                .spinner-container {
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-                    position: fixed;
-                    top: 0;
-                    left: 0; 
-                    width: 100%;
-                    height: 100%;
-                    background-color: rgba(0, 0, 0, 0.5);
-                    z-index: 1050;
-                }
-            </style>
+        
         </head>
 
         <body>
@@ -145,13 +25,32 @@
                 <label for="title">제목</label>
                 <input type="text" id="title" name="title" value="${bbb.title}" readonly>
                 <label for="content">내용</label>
-                <div id="content">${bbb.content}
-                    <iframe width="640" height="360" src="https://www.youtube.com/embed/phuiiNCxRMg" title="aespa 에스파 &#39;Supernova&#39; MV" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-                </div>
-                <div class="buttons">
-                    <button class="list-btn" type="button" onclick="window.location.href='${ref}'">목록</button>
-                </div>
+                <div id="content">${bbb.content}</div>
 
+
+                <div class="buttons">
+                    <div class="reaction-buttons">
+                      <button id="like-btn">
+                        <i class="fas fa-thumbs-up"></i> 좋아요
+                        <span id="like-count">0</span>
+                      </button>
+                      <button
+                        id="dislike-btn"
+                        class="dislike-btn"
+                      >
+                        <i class="fas fa-thumbs-down"></i> 싫어요
+                        <span id="dislike-count">0</span>
+                      </button>
+                    </div>
+            
+                    <button
+                      class="list-btn"
+                      type="button"
+                      onclick="window.location.href='${ref}'"
+                    >
+                      목록
+                    </button>
+                </div>
 
                 <!-- 댓글 영역 -->
 
@@ -251,8 +150,65 @@
 
             </div>
 
+
+
             <!-- 하단부에서 js 로딩 - 위에것들 사용가능 -->
             <script type="module" src="/assets/js/reply.js"></script>
+
+
+            
+            <script>
+
+                // 서버에 좋아요, 싫어요 요청을 보내는 함수
+                async function sendReaction(reactionType) {
+                    console.log(reactionType);
+                    const bno = document.getElementById('wrap').dataset.bno;
+
+                    // jsp파일에서 \를 쓰면 js코드임을 알려줌 (jsp랑 구분)
+                    const res = await fetch(`/board/\${reactionType}?bno=\${bno}`);
+                    const { likeCount, dislikeCount, userReaction } = await res.json();
+
+                    document.getElementById('like-count').textContent = likeCount;
+                    document.getElementById('dislike-count').textContent = dislikeCount;
+
+                    // console.log(json);
+                    // 버튼 활성화 스타일 처리
+                    updateReactionButtons(userReaction);
+                }
+
+                // 좋아요, 싫어요 버튼 배경색 변경
+                function updateReactionButtons(userReaction) {
+                    const $likeBtn = document.getElementById('like-btn');
+                    const $dislikeBtn = document.getElementById('dislike-btn');
+                    
+                    const ACTIVE = 'active';
+                    // 좋아요 버튼이 눌렸을 경우
+                    if (userReaction === 'LIKE') {
+                        $likeBtn.classList.add(ACTIVE);
+                        $dislikeBtn.classList.remove(ACTIVE);
+                    } else if (userReaction === 'DISLIKE') { // 싫어요 버튼이 눌렸을 경우
+                        $likeBtn.classList.remove(ACTIVE);
+                        $dislikeBtn.classList.add(ACTIVE);
+                    } else { // 둘다 안눌렀을 경우
+                        $likeBtn.classList.remove(ACTIVE);
+                        $dislikeBtn.classList.remove(ACTIVE);
+                    }
+                }
+
+                // 좋아요 클릭 이벤트
+                document.getElementById('like-btn').addEventListener('click', e => {
+                    sendReaction('like');
+                });
+
+                // 싫어요 클릭 이벤트
+                document.getElementById('dislike-btn').addEventListener('click', e => {
+                    sendReaction('dislike');
+                });
+            </script>
+                
+                
+
+        
         </body> 
 
         </html>

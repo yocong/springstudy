@@ -3,29 +3,44 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="package com.study.springstudy.springmvc.chap05.mapper.ReactionMapper">
-    <insert id="insertReaction">
-        INSERT INTO tbl_reaction
-        (account, board_no, reaction_type, reaction_date)
-        VALUES (#{account}, #{boardNo}, #{reactionType, #{reactionDate})
+<mapper namespace="com.study.springstudy.springmvc.chap05.mapper.ReactionMapper">
 
+    <insert id="save">
+        INSERT INTO tbl_reaction
+        (board_no, account, reaction_type)
+        VALUES
+        (#{boardNo}, #{account}, #{reactionType})
     </insert>
 
-    <delete id="deleteReaction">
+    <delete id="delete">
         DELETE FROM tbl_reaction
-        WHERE #{boardNo} AND account = #{account}
+        WHERE board_no = #{boardNo}
+        AND account = #{account}
     </delete>
 
-    <select id="findReaction" resultType="reaction">
-        SELECT *
+    <select id="findOne" resultType="reaction">
+        SELECT
+        *
         FROM tbl_reaction
-        WHERE account = #{account}
-        AND board_no = #{bno}
+        WHERE board_no = #{boardNo}
+        AND account = #{account}
     </select>
 
-    <select id="countReactions" resultType="reaction">
-        SELECT COUNT(*)
+    <select id="countLikes" resultType="int">
+        SELECT
+        COUNT(*)
         FROM tbl_reaction
-        WHERE board_no = #{boardNo} AND reaction_type = #{reactionType}
+        WHERE board_no = #{boardNo}
+        AND reaction_type = 'LIKE'
     </select>
+
+    <select id="countDislikes" resultType="int">
+        SELECT
+        COUNT(*)
+        FROM tbl_reaction
+        WHERE board_no = #{boardNo}
+        AND reaction_type = 'DISLIKE'
+    </select>
+
+
 </mapper>

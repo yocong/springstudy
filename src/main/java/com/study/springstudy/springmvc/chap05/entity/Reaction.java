@@ -17,17 +17,17 @@ CREATE TABLE tbl_reaction (
 );
 */
 
-@Setter @Getter @ToString
+@Getter @ToString
 @EqualsAndHashCode
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 public class Reaction {
 
-    private int reactionId;
-    private int boardNo;
+    private long reactionId;
+    private long boardNo;
     private String account;
-    private React reactionType;
+    private ReactionType reactionType;
     private LocalDateTime reactionDate;
 
 }

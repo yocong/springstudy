@@ -6,7 +6,12 @@ import com.study.springstudy.springmvc.chap04.dto.BoardWriteRequestDto;
 import com.study.springstudy.springmvc.chap04.dto.BoardDetailResponseDto;
 import com.study.springstudy.springmvc.chap04.dto.BoardListResponseDto;
 import com.study.springstudy.springmvc.chap04.service.BoardService;
+import com.study.springstudy.springmvc.chap05.dto.response.ReactionDto;
+import com.study.springstudy.springmvc.chap05.service.ReactionService;
+import com.study.springstudy.springmvc.util.LoginUtil;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -19,10 +24,12 @@ import java.util.List;
 @Controller
 @RequestMapping("/board")
 @RequiredArgsConstructor
+@Slf4j
 public class BoardController {
 
     // 의존객체
-    private final BoardService service;
+    private final BoardService boardService;
+    private final ReactionService reactionService;
 
     // 1. 목록 조회 요청 (/board/list : GET)
     @GetMapping("/list")
@@ -31,9 +38,9 @@ public class BoardController {
     public String list(@ModelAttribute("s") Search page, Model model) {
 
         // 서비스에게 조회요청 위임
-        List<BoardListResponseDto> dtos = service.findList(page);
+        List<BoardListResponseDto> dtos = boardService.findList(page);
         // 페이지 정보를 생성하여 JSP에게 전송
-        PageMaker maker = new PageMaker(page, service.getCount(page));
+        PageMaker maker = new PageMaker(page, boardService.getCount(page));
 
         model.addAttribute("bList", dtos);
         model.addAttribute("maker", maker);
@@ -52,7 +59,7 @@ public class BoardController {
     @PostMapping("/write")
     public String register(BoardWriteRequestDto dto, HttpSession session) {
 
-        service.insert(dto, session);
+        boardService.insert(dto, session);
 
         return "redirect:/board/list";
     }
@@ -62,7 +69,7 @@ public class BoardController {
     @GetMapping("/delete")
     public String delete(@RequestParam int bno) {
 
-        service.remove(bno);
+        boardService.remove(bno);
 
         return "redirect:/board/list";
     }
@@ -72,7 +79,7 @@ public class BoardController {
     public String detail(int bno, Model model, HttpServletRequest request, HttpServletResponse response) {
 
         // 2. 데이터베이스로부터 해당 글번호 데이터 조회하기
-        BoardDetailResponseDto b = service.detail(bno, request, response);
+        BoardDetailResponseDto b = boardService.detail(bno, request, response);
 
         // 3. JSP파일에 조회한 데이터 보내기
         model.addAttribute("bbb", b);
@@ -83,5 +90,30 @@ public class BoardController {
 
 
         return "board/detail";
+    }
+
+    // 좋아요 요청 비동기 처리
+    @GetMapping("/like")
+    @ResponseBody
+    public ResponseEntity<?> like(long bno, HttpSession session) {
+
+        log.info("like async request");
+
+        String account = LoginUtil.getLoggedInUserAccount(session);
+        ReactionDto dto = reactionService.like(bno, account);// 좋아요 요청 처리
+
+        return ResponseEntity.ok().body(dto);
+    }
+
+    // 싫어요 요청 비동기 처리
+    @GetMapping("/dislike")
+    @ResponseBody
+    public ResponseEntity<?> dislike(long bno, HttpSession session) {
+        log.info("dislike async request");
+
+        String account = LoginUtil.getLoggedInUserAccount(session);
+
+        ReactionDto dto = reactionService.dislike(bno, account);// 싫어요 요청 처리
+        return ResponseEntity.ok().body(dto);
     }
 }
