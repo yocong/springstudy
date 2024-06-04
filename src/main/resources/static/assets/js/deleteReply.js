@@ -6,7 +6,7 @@ import { callApi } from "./api.js";
 const fetchDeleteReply = async (rno) => {
     
     await callApi(`${BASE_URL}/${rno}`, 'DELETE');
-    
+
     // const res = await fetch(`${BASE_URL}/${rno}`, {
     //     method: 'DELETE'
     // });
@@ -35,7 +35,6 @@ export function removeReplyClickEvent() {
         // 댓글번호
         const rno = e.target.closest('#replyContent').dataset.replyId;
         fetchDeleteReply(rno);
-
     });
 
 }

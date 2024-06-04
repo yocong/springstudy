@@ -27,7 +27,7 @@ public class LoginUtil {
     }
 
     // 로그인한 회원정보 얻기
-    private static LoginUserInfoDto getLoggedInUser(HttpSession session) {
+    public static LoginUserInfoDto getLoggedInUser(HttpSession session) {
         return (LoginUserInfoDto) session.getAttribute(LOGIN);
     }
 
