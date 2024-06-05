@@ -2,6 +2,7 @@ package com.study.springstudy.springmvc.chap05.dto.request;
 
 import com.study.springstudy.springmvc.chap05.entity.Member;
 import lombok.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
@@ -27,6 +28,9 @@ public class SignUpDto {
 
     @NotBlank
     private String email;
+
+    // 프로필 사진 데이터
+    private MultipartFile profileImage;
 
     // dto -> 엔터티로 변환
     public Member toEntity() {
