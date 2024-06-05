@@ -20,6 +20,7 @@
         , email
         , auth
         , reg_date
+        , profile_img
         FROM tbl_member
         WHERE account = #{account}
     </select>
