@@ -9,6 +9,7 @@ import com.study.springstudy.springmvc.util.FileUtil;
 import com.study.springstudy.springmvc.util.LoginUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,7 +29,8 @@ import javax.servlet.http.HttpSession;
 @RequiredArgsConstructor
 public class MemberController {
 
-    private String rootPath = "C:/Users/smr78/OneDrive/바탕 화면/yocong/spring-prj/upload";
+    @Value("${file.upload.root-path}")
+    private String rootPath;
 
 
     private final MemberService memberService;
