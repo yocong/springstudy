@@ -7,9 +7,9 @@
 
     <insert id="save">
         INSERT INTO tbl_member
-        (account, password, name, email)
+        (account, password, name, email, profile_img)
         VALUES
-        (#{account}, #{password}, #{name}, #{email})
+        (#{account}, #{password}, #{name}, #{email}, #{profileImg})
     </insert>
 
     <select id="findOne" resultType="member">

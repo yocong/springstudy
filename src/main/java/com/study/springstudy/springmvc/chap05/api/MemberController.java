@@ -51,10 +51,10 @@ public class MemberController {
         log.debug("parameter: {}", dto);
         log.debug("attached profile image name: {}", dto.getProfileImage().getOriginalFilename());
 
-        // 서버에 업로드
-        FileUtil.uploadFile(rootPath, dto.getProfileImage());
+        // 서버에 업로드 후 업로드 경로 반환
+        String profilePath = FileUtil.uploadFile(rootPath, dto.getProfileImage());
 
-        boolean flag = memberService.join(dto);
+        boolean flag = memberService.join(dto, profilePath);
         // 회원가입 성공? -> 로그인 페이지로 이동
         return flag ? "redirect:/members/sign-in" : "redirect:/members/sign-up";
     }
