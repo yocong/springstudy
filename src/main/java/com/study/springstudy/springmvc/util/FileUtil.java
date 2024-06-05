@@ -4,6 +4,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.DecimalFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 public class FileUtil {
@@ -24,13 +28,45 @@ public class FileUtil {
         // 원본 파일명을 중복이 없는 랜덤 파일명으로 변경
         String newFileName = UUID.randomUUID() + "_" + file.getOriginalFilename();
 
+        // 이 첨부파일을 날짜별로 관리하기 위해 날짜 폴더를 생성
+        String newUploadPath = makeDateFormatDirectory(rootPath);
+
         // 파일 업로드 수행
         try {
-            file.transferTo(new File(rootPath, newFileName));
+            file.transferTo(new File(newUploadPath, newFileName));
         } catch (IOException e) {
             e.printStackTrace();
         }
 
         return "";
+    }
+
+    private static String makeDateFormatDirectory(String rootPath) {
+
+        // 오늘 날짜 정보를 추출
+        LocalDate now = LocalDate.now();
+        int year = now.getYear();
+        int month = now.getMonthValue();
+        int day = now.getDayOfMonth();
+
+        List<String> dateList = List.of(year + "", len2(month), len2(day));
+
+        // ex) rootPath - D:/spring_prj/upload
+        String newDirectoryPath = rootPath;
+
+        // newDirectoryPath - D:/spring_prj/upload/2024/06/05
+        for (String s : dateList) {
+            newDirectoryPath += "/" + s;
+            File f = new File(newDirectoryPath);
+            if (!f.exists()) f.mkdir();
+        }
+
+        return newDirectoryPath;
+    }
+
+    // 한자리 수면 앞에 0이 붙게됨
+    // ex) 01, 02, 03 ... 10, 11
+    private static String len2(int n) {
+        return new DecimalFormat("00").format(n);
     }
 }
