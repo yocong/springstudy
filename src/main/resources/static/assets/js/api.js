@@ -1,5 +1,6 @@
 
 // 서버 api에 호출을 수행하는 함수
+// fetch를 해서 json을 받아옴
 export const callApi = async (url, method = 'GET', payload = null) => {
 
   const requestInfo = {

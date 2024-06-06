@@ -1,6 +1,7 @@
 package com.study.springstudy.springmvc.chap05.mapper;
 
 import com.study.springstudy.springmvc.chap04.common.Page;
+import com.study.springstudy.springmvc.chap05.dto.response.ReplyFindAllDto;
 import com.study.springstudy.springmvc.chap05.entity.Reply;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -20,8 +21,8 @@ public interface ReplyMapper {
     boolean delete(long replyNo);
 
     // 특정 게시물에 달린 댓글 목록 조회 - 게시물 번호 파라미터 필요
-    List<Reply> findAll(@Param("bno") long boardNo,
-                        @Param("p") Page page);
+    List<ReplyFindAllDto> findAll(@Param("bno") long boardNo,
+                                  @Param("p") Page page);
 
     // 총 댓글 수 조회
     int count(long boardNo);

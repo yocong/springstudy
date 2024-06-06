@@ -1,6 +1,7 @@
 package com.study.springstudy.springmvc.chap05.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.study.springstudy.springmvc.chap05.entity.Reply;
 import lombok.*;
 
@@ -22,12 +23,18 @@ public class ReplyDetailDto {
     private LocalDateTime createAt;
     private String account; // 댓글 작성자 계정명
 
+    // 클라이언트 쪽에서 profile 이라는 이름으로 바꿔서 주세요~
+    @JsonProperty("profile")
+    private String profileImg;
+
     // 엔터티를 DTO로 변환하는 생성자
-    public ReplyDetailDto(Reply r) {
+    public ReplyDetailDto(ReplyFindAllDto r) {
         this.rno = r.getReplyNo();
         this.text = r.getReplyText();
         this.writer = r.getReplyWriter();
         this.createAt = r.getReplyDate();
         this.account = r.getAccount();
+        this.profileImg = r.getProfileImg();
+
     }
 }

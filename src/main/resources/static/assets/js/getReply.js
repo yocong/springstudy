@@ -138,11 +138,14 @@ function appendReplies({ replies, loginUser }) {
     console.log(replies);
     let tag = '';
     if (replies && replies.length > 0) {
-        replies.forEach(({ rno, writer, text, createAt, account: replyAccount }) => {
+        replies.forEach(({ rno, writer, text, createAt, account: replyAccount, profile }) => {
             tag += `
         <div id='replyContent' class='card-body' data-reply-id='${rno}'>
             <div class='row user-block'>
                 <span class='col-md-3'>
+
+                    <img class='reply-profile' src='${profile ? profile : '/assets/img/anonymous.jpg'}' alt='profile imgae'>
+                
                     <b>${writer}</b>
                 </span>
                 <span class='offset-md-6 col-md-3 text-right'><b>${getRelativeTime(
@@ -182,7 +185,7 @@ function appendReplies({ replies, loginUser }) {
     loadedReplies += replies.length;
 }
 
-// 서버에서 댓글 데이터를 페칭
+// 서버에서 댓글 데이터를 페칭 (댓글 목록들을 불러옴)
 export async function fetchInfScrollReplies(pageNo = 1) {
     if (isFetching) return; // 서버에서 데이터를 가져오는 중이면 return
 
@@ -190,6 +193,7 @@ export async function fetchInfScrollReplies(pageNo = 1) {
 
     const bno = document.getElementById('wrap').dataset.bno; // 게시물 글번호
 
+    // callApi에서 fetch해서 json을 불러옴
     const replyResponse
         = await callApi(`${BASE_URL}/${bno}/page/${pageNo}`);
 
