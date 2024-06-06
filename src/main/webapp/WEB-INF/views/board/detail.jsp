@@ -60,8 +60,9 @@
                         <!-- 댓글 쓰기 영역 -->
                         <div class="card">
                             <div class="card-body">
+                                <!-- a태그 눌렀을 때 로그인하면 바로 댓글창이 띄워지게 redirect를 상세조회로 처리 -->
                                 <c:if test="${login == null}">
-                                    <a href="/members/sign-in">댓글은 로그인 후 작성해주세요!!</a>
+                                    <a href="/members/sign-in?redirect=/board/detail?bno=${bbb.boardNo}">댓글은 로그인 후 작성해주세요!!</a>
                                 </c:if>
                                 <c:if test="${login != null}">
                                     <div class="row">
@@ -74,6 +75,18 @@
                                         </div>
                                         <div class="col-md-3">
                                             <div class="form-group">
+
+                                                <div class="profile-box">
+                                                    <c:choose>
+                                                        <c:when test="${login != null && login.profile != null}">
+                                                            <img src="${login.profile}" alt="profile image">
+                                                        </c:when>
+                                                        <c:otherwise>
+                                                            <img src="/assets/img/anonymous.jpg" alt="profile image">
+                                                        </c:otherwise>
+                                                    </c:choose>
+                                                </div>
+
                                                 <label for="newReplyWriter" hidden>댓글 작성자</label>
                                                 <input id="newReplyWriter" name="replyWriter" type="text" value="${login.nickname}"
                                                     class="form-control" placeholder="작성자 이름" style="margin-bottom: 6px;" readonly>
