@@ -11,7 +11,13 @@ public class ErrorController {
     public String error404() {
         return "error/error404";
     }
-    @GetMapping("/error/500")
+
+    @GetMapping("error/500")
+    public String error500() {
+        return "error/error500";
+    }
+
+    @GetMapping("/access-deny")
     public String error500(String message, Model model) {
         model.addAttribute("msg", message);
         return "error/access-deny";
